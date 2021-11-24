@@ -1,6 +1,6 @@
 package ru.subnak.easybike.domain.journeyvalues
 
-data class JourneyValues(
+data class JourneyValue(
     val valueID: Int,
     val journeyID: Int,
     val latitude: Double,

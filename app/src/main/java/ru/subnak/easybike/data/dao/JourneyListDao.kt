@@ -3,11 +3,15 @@ package ru.subnak.easybike.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import ru.subnak.easybike.data.entity.JourneyDbModel
+import ru.subnak.easybike.data.relation.JourneyWithJourneyValueList
 
 @Dao
 interface JourneyListDao {
     @Query("SELECT * FROM journeys")
     fun getJourneyList(): LiveData<List<JourneyDbModel>>
+
+    @Query("SELECT * FROM journeys")
+    fun getJourneyWithJourneyValuesList(): LiveData<List<JourneyWithJourneyValueList>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJourney(journeyDbModel: JourneyDbModel)

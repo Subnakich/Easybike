@@ -1,4 +1,4 @@
 package ru.subnak.easybike.domain.journeyvalues
 
-interface JourneyValuesRepository {
+class AddJourneyValueUseCase {
 }

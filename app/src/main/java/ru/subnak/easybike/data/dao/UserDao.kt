@@ -1,13 +1,18 @@
 package ru.subnak.easybike.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ru.subnak.easybike.data.entity.UserDbModel
+import ru.subnak.easybike.data.relation.UserWithJourneyAndJourneyValueList
 
 @Dao
 interface UserDao {
+    @Query("SELECT * FROM users")
+    fun getUserWithJourneyAndJourneyValueList(): LiveData<List<UserWithJourneyAndJourneyValueList>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addUser(userDbModel: UserDbModel)
 
