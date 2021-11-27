@@ -1,6 +1,7 @@
-package ru.subnak.easybike.domain.journeyvalues
+package ru.subnak.easybike.domain.repositories
 
 import androidx.lifecycle.LiveData
+import ru.subnak.easybike.domain.model.JourneyValue
 
 interface JourneyValueRepository {
 

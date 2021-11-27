@@ -1,6 +1,4 @@
-package ru.subnak.easybike.domain.journey
-
-import ru.subnak.easybike.domain.journeyvalues.JourneyValue
+package ru.subnak.easybike.domain.model
 
 data class Journey(
     val journeyID: Int,

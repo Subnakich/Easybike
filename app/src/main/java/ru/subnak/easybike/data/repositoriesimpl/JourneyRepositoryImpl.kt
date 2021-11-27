@@ -1,12 +1,12 @@
-package ru.subnak.easybike.data.repositoryImpl
+package ru.subnak.easybike.data.repositoriesimpl
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import ru.subnak.easybike.data.AppDatabase
 import ru.subnak.easybike.data.mapper.JourneyMapper
-import ru.subnak.easybike.domain.journey.Journey
-import ru.subnak.easybike.domain.journey.JourneyRepository
+import ru.subnak.easybike.domain.model.Journey
+import ru.subnak.easybike.domain.repositories.JourneyRepository
 
 class JourneyRepositoryImpl(
     application: Application

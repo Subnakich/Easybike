@@ -1,4 +1,7 @@
-package ru.subnak.easybike.domain.journey
+package ru.subnak.easybike.domain.usecases.journey
+
+import ru.subnak.easybike.domain.model.Journey
+import ru.subnak.easybike.domain.repositories.JourneyRepository
 
 class AddJourneyUseCase(private val journeyRepository: JourneyRepository) {
 

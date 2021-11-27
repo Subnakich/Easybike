@@ -1,7 +1,7 @@
 package ru.subnak.easybike.data.mapper
 
 import ru.subnak.easybike.data.entity.UserDbModel
-import ru.subnak.easybike.domain.user.User
+import ru.subnak.easybike.domain.model.User
 
 class UserMapper {
 

@@ -1,10 +1,10 @@
-package ru.subnak.easybike.data.repositoryImpl
+package ru.subnak.easybike.data.repositoriesimpl
 
 import android.app.Application
 import ru.subnak.easybike.data.AppDatabase
 import ru.subnak.easybike.data.mapper.UserMapper
-import ru.subnak.easybike.domain.user.User
-import ru.subnak.easybike.domain.user.UserRepository
+import ru.subnak.easybike.domain.model.User
+import ru.subnak.easybike.domain.repositories.UserRepository
 
 class UserRepositoryImpl(
     application: Application

@@ -1,4 +1,4 @@
-package ru.subnak.easybike.domain.journeyvalues
+package ru.subnak.easybike.domain.model
 
 data class JourneyValue(
     val valueID: Int,

@@ -1,4 +1,4 @@
-package ru.subnak.easybike.domain.user
+package ru.subnak.easybike.domain.model
 
 data class User(
     val userID: Int,

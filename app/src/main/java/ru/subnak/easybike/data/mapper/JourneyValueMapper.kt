@@ -1,7 +1,7 @@
 package ru.subnak.easybike.data.mapper
 
 import ru.subnak.easybike.data.entity.JourneyValueDbModel
-import ru.subnak.easybike.domain.journeyvalues.JourneyValue
+import ru.subnak.easybike.domain.model.JourneyValue
 
 class JourneyValueMapper {
     fun mapEntityToDbModel(journeyValue: JourneyValue) = JourneyValueDbModel(

@@ -1,4 +1,6 @@
-package ru.subnak.easybike.domain.user
+package ru.subnak.easybike.domain.repositories
+
+import ru.subnak.easybike.domain.model.User
 
 interface UserRepository {
 
