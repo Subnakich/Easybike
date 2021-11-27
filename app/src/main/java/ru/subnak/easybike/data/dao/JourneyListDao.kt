@@ -10,6 +10,7 @@ interface JourneyListDao {
     @Query("SELECT * FROM journeys")
     fun getJourneyList(): LiveData<List<JourneyDbModel>>
 
+    @Transaction
     @Query("SELECT * FROM journeys")
     fun getJourneyWithJourneyValuesList(): LiveData<List<JourneyWithJourneyValueList>>
 

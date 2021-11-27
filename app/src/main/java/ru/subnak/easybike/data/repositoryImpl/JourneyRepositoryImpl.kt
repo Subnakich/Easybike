@@ -23,10 +23,6 @@ class JourneyRepositoryImpl(
         journeyListDao.deleteJourney(journey.journeyID)
     }
 
-    override suspend fun editJourney(journey: Journey) {
-        journeyListDao.addJourney(mapper.mapEntityToDbModel(journey))
-    }
-
     override suspend fun getJourney(journeyID: Int): Journey {
         val dbModel = journeyListDao.getJourney(journeyID)
         return mapper.mapDbModelToEntity(dbModel)
@@ -36,5 +32,11 @@ class JourneyRepositoryImpl(
         journeyListDao.getJourneyList()
     ) {
         mapper.mapListDbModelToListEntity(it)
+    }
+
+    override fun getJourneyWithJourneyValuesList(): LiveData<List<Journey>> = Transformations.map(
+        journeyListDao.getJourneyWithJourneyValuesList()
+    ) {
+        mapper.mapListDbModelWithValuesToListEntity(it)
     }
 }

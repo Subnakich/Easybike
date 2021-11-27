@@ -11,7 +11,11 @@ import ru.subnak.easybike.data.entity.JourneyDbModel
 import ru.subnak.easybike.data.entity.JourneyValueDbModel
 import ru.subnak.easybike.data.entity.UserDbModel
 
-@Database(entities = [UserDbModel::class, JourneyDbModel::class, JourneyValueDbModel::class ], version = 1, exportSchema = false)
+@Database(
+    entities = [UserDbModel::class, JourneyDbModel::class, JourneyValueDbModel::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDao

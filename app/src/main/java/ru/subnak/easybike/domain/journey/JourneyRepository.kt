@@ -8,9 +8,9 @@ interface JourneyRepository {
 
     suspend fun deleteJourney(journey: Journey)
 
-    suspend fun editJourney(journey: Journey)
-
     suspend fun getJourney(journeyID: Int): Journey
 
     fun getJourneyList(): LiveData<List<Journey>>
+
+    fun getJourneyWithJourneyValuesList(): LiveData<List<Journey>>
 }

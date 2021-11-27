@@ -17,10 +17,6 @@ class UserRepositoryImpl(
         userDao.addUser(mapper.mapEntityToDbModel(user))
     }
 
-    override suspend fun deleteUser(user: User) {
-        userDao.deleteUser(user.userID)
-    }
-
     override suspend fun editUser(user: User) {
         userDao.addUser(mapper.mapEntityToDbModel(user))
     }

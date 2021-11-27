@@ -8,7 +8,11 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "journey_values",
     foreignKeys = [
-        ForeignKey(entity = JourneyDbModel::class, parentColumns = ["id"], childColumns = ["journey_id"])
+        ForeignKey(
+            entity = JourneyDbModel::class,
+            parentColumns = ["id"],
+            childColumns = ["journey_id"]
+        )
     ]
 )
 data class JourneyValueDbModel(
