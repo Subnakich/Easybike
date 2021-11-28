@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">Easy Bike</string>
+
+    <!-- Resources that do not require translation -->
+    <string name="app_name" translatable="false">EasyBike</string>
+
+    <!-- Translatable resources -->
+
+    <!-- Titles -->
+    <string name="title_map">Map</string>
+    <string name="title_statistic">Statistic</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- journey.xml -->
+    <string name="distance">Distance</string>
+    <string name="speed">Speed</string>
+    <string name="duration">Duration</string>
+    <string name="date">Date</string>
+    <string name="distance_with_km">%s km</string>
+    <string name="speed_with_kmh">%s km/h</string>
+
+    <!-- Other -->
 </resources>

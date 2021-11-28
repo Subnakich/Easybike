@@ -1,5 +1,9 @@
 package ru.subnak.easybike.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class JourneyValue(
     val valueID: Int,
     val journeyID: Int,
@@ -10,4 +14,4 @@ data class JourneyValue(
     val time: Long,
     val systemTime: Long,
     val accuracy: Double
-)
+): Parcelable

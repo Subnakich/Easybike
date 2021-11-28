@@ -13,7 +13,7 @@ import ru.subnak.easybike.data.entity.UserDbModel
 
 @Database(
     entities = [UserDbModel::class, JourneyDbModel::class, JourneyValueDbModel::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase() {
@@ -39,7 +39,9 @@ abstract class AppDatabase: RoomDatabase() {
                     application,
                     AppDatabase::class.java,
                     DB_NAME
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = db
                 return db
             }

@@ -14,4 +14,5 @@ interface JourneyValueListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJourneyValue(journeyValueDbModel: JourneyValueDbModel)
+    //fun addJourneyValue(journeyValueDbModel: JourneyValueDbModel)
 }

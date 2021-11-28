@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="journey"
+            type="ru.subnak.easybike.domain.model.Journey" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#252836"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:cardCornerRadius="8dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_journey"
+                    tools:srcCompat="@drawable/ic_journey" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/cvLinearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintBottom_toTopOf="@id/cvLinearLayout2"
+                app:layout_constraintEnd_toStartOf="@id/cvLinearLayout1"
+                app:layout_constraintStart_toEndOf="@+id/cv"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:text="@string/distance"
+                    android:textStyle="bold"
+                    tools:text="Distance" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:bindDistanceToString="@{journey.distance}"
+                    tools:text="10 km" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cvLinearLayout1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintBottom_toTopOf="@id/cvLinearLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cvLinearLayout"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/speed"
+                    tools:text="Speed" />
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:bindSpeedToString="@{journey.speed}"
+                    tools:text="100 km/h" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/cvLinearLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cvLinearLayout3"
+                app:layout_constraintStart_toEndOf="@+id/cv"
+                app:layout_constraintTop_toBottomOf="@+id/cvLinearLayout">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/duration"
+                    tools:text="Duration" />
+
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:bindDurationToString="@{journey.duration}"
+                    tools:text="00:02:30" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cvLinearLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cvLinearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/cvLinearLayout1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/date"
+                    tools:text="Date" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:bindDateToString="@{journey.date}"
+                    tools:text="28.11.2021" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

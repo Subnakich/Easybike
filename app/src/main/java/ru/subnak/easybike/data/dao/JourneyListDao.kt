@@ -16,10 +16,13 @@ interface JourneyListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJourney(journeyDbModel: JourneyDbModel)
+    //fun addJourney(journeyDbModel: JourneyDbModel)
 
     @Query("DELETE FROM journeys WHERE id=:journeyID")
     suspend fun deleteJourney(journeyID: Int)
+    //fun deleteJourney(journeyID: Int)
 
     @Query("SELECT * FROM journeys WHERE id=:journeyID LIMIT 1")
     suspend fun getJourney(journeyID: Int): JourneyDbModel
+    //fun getJourney(journeyID: Int): JourneyDbModel
 }
