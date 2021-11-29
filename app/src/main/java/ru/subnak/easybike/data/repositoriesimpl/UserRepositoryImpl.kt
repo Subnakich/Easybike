@@ -8,7 +8,7 @@ import ru.subnak.easybike.domain.repositories.UserRepository
 
 class UserRepositoryImpl(
     application: Application
-): UserRepository {
+) : UserRepository {
 
     private val userDao = AppDatabase.getInstance(application).userDao()
     private val mapper = UserMapper()

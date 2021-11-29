@@ -14,4 +14,4 @@ data class JourneyValue(
     val time: Long,
     val systemTime: Long,
     val accuracy: Double
-): Parcelable
+) : Parcelable

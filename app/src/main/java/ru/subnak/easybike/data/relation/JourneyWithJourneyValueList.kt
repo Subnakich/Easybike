@@ -6,6 +6,7 @@ import ru.subnak.easybike.data.entity.JourneyDbModel
 import ru.subnak.easybike.data.entity.JourneyValueDbModel
 
 data class JourneyWithJourneyValueList(
+
     @Embedded
     val journeyDbModel: JourneyDbModel,
     @Relation(

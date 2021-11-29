@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_history">
         <argument
             android:name="journey"
-            app:argType="ru.subnak.easybike.domain.model.Journey"/>
+            app:argType="ru.subnak.easybike.domain.model.Journey" />
     </fragment>
 
     <fragment

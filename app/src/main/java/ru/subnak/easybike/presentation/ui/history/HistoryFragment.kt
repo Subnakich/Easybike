@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentHistoryBinding
 import ru.subnak.easybike.domain.model.Journey
-import ru.subnak.easybike.domain.model.JourneyValue
 import ru.subnak.easybike.presentation.JourneyListAdapter
 
 class HistoryFragment : Fragment() {
@@ -44,8 +42,6 @@ class HistoryFragment : Fragment() {
         viewModel.journeyList.observe(viewLifecycleOwner) {
             journeyListAdapter.submitList(it)
         }
-
-
     }
 
     private fun setupRecyclerView() {
@@ -72,8 +68,8 @@ class HistoryFragment : Fragment() {
             .setTitle("Cancel the Journey")
             .setMessage("Are you sure you want to cancel this journey")
             .setIcon(R.drawable.ic_delete)
-            .setPositiveButton("Yes") { _,_ -> viewModel.deleteJourney(journey) }
-            .setNegativeButton("No") { d,_ -> d.cancel() }
+            .setPositiveButton("Yes") { _, _ -> viewModel.deleteJourney(journey) }
+            .setNegativeButton("No") { d, _ -> d.cancel() }
             .create()
 
         dialog.show()

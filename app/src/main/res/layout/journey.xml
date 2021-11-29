@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -8,8 +8,7 @@
             type="ru.subnak.easybike.domain.model.Journey" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#252836"
+            android:background="@color/purple_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,9 +31,10 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -43,11 +43,12 @@
 
                 <ImageView
                     android:id="@+id/ivMap"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="150dp"
+                    android:layout_height="120dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_journey"
-                    tools:srcCompat="@drawable/ic_journey" />
+                    tools:srcCompat="@drawable/ic_journey"
+                    android:contentDescription="@string/map_with_path_description" />
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -56,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="8dp"
                 app:layout_constraintBottom_toTopOf="@id/cvLinearLayout2"
                 app:layout_constraintEnd_toStartOf="@id/cvLinearLayout1"
                 app:layout_constraintStart_toEndOf="@+id/cv"
@@ -88,7 +89,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="8dp"
                 app:layout_constraintBottom_toTopOf="@id/cvLinearLayout3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cvLinearLayout"
@@ -120,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cvLinearLayout3"
                 app:layout_constraintStart_toEndOf="@+id/cv"
@@ -152,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cvLinearLayout2"

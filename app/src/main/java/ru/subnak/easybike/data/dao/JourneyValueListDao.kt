@@ -9,10 +9,10 @@ import ru.subnak.easybike.data.entity.JourneyValueDbModel
 
 @Dao
 interface JourneyValueListDao {
+
     @Query("SELECT * FROM journey_values WHERE id=:journeyID")
     fun getJourneyValueList(journeyID: Int): LiveData<List<JourneyValueDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addJourneyValue(journeyValueDbModel: JourneyValueDbModel)
-    //fun addJourneyValue(journeyValueDbModel: JourneyValueDbModel)
 }

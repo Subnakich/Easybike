@@ -16,13 +16,14 @@ import ru.subnak.easybike.data.entity.UserDbModel
     version = 2,
     exportSchema = false
 )
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun journeyListDao(): JourneyListDao
     abstract fun journeyValueListDao(): JourneyValueListDao
 
     companion object {
+
         private var INSTANCE: AppDatabase? = null
         private val LOCK = Any()
         private const val DB_NAME = "easy_bike.db"

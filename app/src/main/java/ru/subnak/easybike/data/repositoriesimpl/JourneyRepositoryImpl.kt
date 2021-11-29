@@ -10,7 +10,7 @@ import ru.subnak.easybike.domain.repositories.JourneyRepository
 
 class JourneyRepositoryImpl(
     application: Application
-): JourneyRepository {
+) : JourneyRepository {
 
     private val journeyListDao = AppDatabase.getInstance(application).journeyListDao()
     private val mapper = JourneyMapper()

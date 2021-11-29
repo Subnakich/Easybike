@@ -16,6 +16,7 @@ import androidx.room.PrimaryKey
     ]
 )
 data class JourneyValueDbModel(
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val valueID: Int,

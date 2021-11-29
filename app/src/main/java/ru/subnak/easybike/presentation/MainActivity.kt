@@ -2,10 +2,7 @@ package ru.subnak.easybike.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.subnak.easybike.R
@@ -23,21 +20,23 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         //Cannot find NavController фикс
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
         //val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
+        //Passing each menu ID as a set of Ids because each
+        //menu should be considered as top level destinations.
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-
-        // ActionBar включение/выключение
-        //val appBarConfiguration = AppBarConfiguration(
-        //    setOf(
-        //        R.id.navigation_map, R.id.navigation_statistic, R.id.navigationHistoryFragment, R.id.navigation_settings
-        //    )
-        //)
-        //setupActionBarWithNavController(navController, appBarConfiguration)
+        /*
+        ActionBar включение/выключение
+        val appBarConfiguration = AppBarConfiguration(
+        setOf(
+        R.id.navigation_map, R.id.navigation_statistic, R.id.navigationHistoryFragment, R.id.navigation_settings
+        )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        */
 
 
         navView.setupWithNavController(navController)
