@@ -7,6 +7,7 @@ import ru.subnak.easybike.data.relation.JourneyWithJourneyValueList
 
 @Dao
 interface JourneyListDao {
+
     @Query("SELECT * FROM journeys")
     fun getJourneyList(): LiveData<List<JourneyDbModel>>
 

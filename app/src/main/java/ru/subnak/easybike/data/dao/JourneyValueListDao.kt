@@ -9,6 +9,7 @@ import ru.subnak.easybike.data.entity.JourneyValueDbModel
 
 @Dao
 interface JourneyValueListDao {
+
     @Query("SELECT * FROM journey_values WHERE id=:journeyID")
     fun getJourneyValueList(journeyID: Int): LiveData<List<JourneyValueDbModel>>
 

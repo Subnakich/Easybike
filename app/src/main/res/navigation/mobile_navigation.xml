@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_map">
+
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="ru.subnak.easybike.presentation.ui.map.MapsFragment"
+        android:label="@string/title_map"
+        tools:layout="@layout/fragment_maps" />
+
+    <fragment
+        android:id="@+id/navigation_statistic"
+        android:name="ru.subnak.easybike.presentation.ui.statistic.StatisticFragment"
+        android:label="@string/title_statistic"
+        tools:layout="@layout/fragment_statistic" />
+
+    <fragment
+        android:id="@+id/navigationHistoryFragment"
+        android:name="ru.subnak.easybike.presentation.ui.history.HistoryFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/fragment_history">
+        <argument
+            android:name="journey"
+            app:argType="ru.subnak.easybike.domain.model.Journey" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="ru.subnak.easybike.presentation.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

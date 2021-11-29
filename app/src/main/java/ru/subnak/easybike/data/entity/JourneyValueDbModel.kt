@@ -16,16 +16,17 @@ import androidx.room.PrimaryKey
     ]
 )
 data class JourneyValueDbModel(
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val valueID: Int,
-    @ColumnInfo(name = "journey_id")
+    @ColumnInfo(name = "journey_id", index = true)
     val journeyID: Int,
-    val latitude: Double,
-    val longitude: Double,
-    val altitude: Double,
-    val speed: Double,
-    val time: Long,
-    val systemTime: Long,
-    val accuracy: Double
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
+    val altitude: Double = 0.0,
+    val speed: Double = 0.0,
+    val time: Long = 0L,
+    val systemTime: Long = 0L,
+    val accuracy: Double = 0.0
 )

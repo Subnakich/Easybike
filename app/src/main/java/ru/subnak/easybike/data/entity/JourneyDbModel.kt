@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "journeys",
 )
 data class JourneyDbModel(
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val journeyID: Int,

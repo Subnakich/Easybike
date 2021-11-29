@@ -4,6 +4,7 @@ import ru.subnak.easybike.data.entity.JourneyValueDbModel
 import ru.subnak.easybike.domain.model.JourneyValue
 
 class JourneyValueMapper {
+
     fun mapEntityToDbModel(journeyValue: JourneyValue) = JourneyValueDbModel(
         valueID = journeyValue.valueID,
         journeyID = journeyValue.journeyID,

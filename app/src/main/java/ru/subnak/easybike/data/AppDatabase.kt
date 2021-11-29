@@ -13,16 +13,17 @@ import ru.subnak.easybike.data.entity.UserDbModel
 
 @Database(
     entities = [UserDbModel::class, JourneyDbModel::class, JourneyValueDbModel::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun journeyListDao(): JourneyListDao
     abstract fun journeyValueListDao(): JourneyValueListDao
 
     companion object {
+
         private var INSTANCE: AppDatabase? = null
         private val LOCK = Any()
         private const val DB_NAME = "easy_bike.db"
@@ -39,7 +40,9 @@ abstract class AppDatabase: RoomDatabase() {
                     application,
                     AppDatabase::class.java,
                     DB_NAME
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = db
                 return db
             }
