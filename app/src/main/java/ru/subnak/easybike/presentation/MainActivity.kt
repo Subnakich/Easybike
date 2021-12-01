@@ -1,12 +1,14 @@
 package ru.subnak.easybike.presentation
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,8 +22,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         //Cannot find NavController фикс
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
         //val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
@@ -40,5 +41,14 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+                when(destination.id) {
+                    R.id.navigation_map, R.id.navigation_statistic, R.id.navigationHistoryFragment,R.id.navigation_settings ->
+                        navView.visibility = View.VISIBLE
+                    else -> navView.visibility = View.GONE
+                }
+            }
     }
+
+
 }

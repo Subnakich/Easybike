@@ -20,5 +20,18 @@
     <string name="speed_with_kmh">%s km/h</string>
     <string name="map_with_path_description">This is map with path image</string>
 
+    <!-- Welcome Fragment -->
+    <string name="welcome_title">Welcome to the EasyBike</string>
+    <string name="gps_permission_access">Permission for permanent location tracking is required to use the app. EasyBike will use your location in the background to display your journeys on the map.</string>
+    <string name="request_permission">Request Permission</string>
+    <string name="permission_granted">Permission Granted</string>
+    <string name="cannot_work_without_permission_first">This application cannot work without Location Permission.</string>
+    <string name="full_time_access">One more!</string>
+    <string name="cant_work">EasyBike cannot work without Location Permission.</string>
+    <string name="Q_access_permission_dialog">Choose \"Allow all the time\" in settings.</string>
+    <string name="negative_button_cancel">Cancel</string>
+    <string name="positive_button_ok">OK</string>
+
+
     <!-- Other -->
 </resources>

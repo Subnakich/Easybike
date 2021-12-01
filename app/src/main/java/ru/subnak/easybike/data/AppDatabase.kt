@@ -13,7 +13,7 @@ import ru.subnak.easybike.data.entity.UserDbModel
 
 @Database(
     entities = [UserDbModel::class, JourneyDbModel::class, JourneyValueDbModel::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

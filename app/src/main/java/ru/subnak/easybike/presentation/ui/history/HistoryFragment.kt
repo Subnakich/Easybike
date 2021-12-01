@@ -42,6 +42,9 @@ class HistoryFragment : Fragment() {
         viewModel.journeyList.observe(viewLifecycleOwner) {
             journeyListAdapter.submitList(it)
         }
+        val journey = Journey(1,500L,200,10.0,20L,"kek", emptyList())
+        //val journey = Journey(1,5000L,200,20.0,20L,"kek", emptyList())
+        viewModel.addJourney(journey)
     }
 
     private fun setupRecyclerView() {

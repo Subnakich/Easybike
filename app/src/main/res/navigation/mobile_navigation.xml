@@ -3,7 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_map">
+    app:startDestination="@+id/navigation_welcome">
+
+    <fragment
+        android:id="@+id/navigation_welcome"
+        android:name="ru.subnak.easybike.presentation.ui.welcome.WelcomeFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_navigation_welcome_to_navigation_map"
+            app:destination="@id/navigation_map"
+            app:popUpTo="@id/navigation_map" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_map"
