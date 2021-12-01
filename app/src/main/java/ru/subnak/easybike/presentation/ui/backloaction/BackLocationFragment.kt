@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.welcome
+package ru.subnak.easybike.presentation.ui.backloaction
 
 import android.Manifest
 import android.os.Build
@@ -6,40 +6,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import ru.subnak.easybike.R
-import ru.subnak.easybike.databinding.FragmentWelcomeBinding
+import ru.subnak.easybike.databinding.FragmentBackLocationBinding
 import ru.subnak.easybike.presentation.utils.PermissionsUtility
 
+@RequiresApi(Build.VERSION_CODES.Q)
+class BackLocationFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
-class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
-
-    private var _binding: FragmentWelcomeBinding? = null
-    private val binding: FragmentWelcomeBinding
-        get() = _binding ?: throw RuntimeException("WelcomeFragmentBinding == null")
+    private var _binding: FragmentBackLocationBinding? = null
+    private val binding: FragmentBackLocationBinding
+        get() = _binding ?: throw RuntimeException("FragmentBackLocationBinding == null")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        _binding = FragmentBackLocationBinding.inflate(inflater, container, false)
 
         setViewVisibility()
 
         return binding.root
-    }
-
-    private fun requestLocationPermissions() {
-        EasyPermissions.requestPermissions(
-            this,
-            getString(R.string.cant_work),
-            PERMISSION_REQUEST_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
     }
 
     override fun onRequestPermissionsResult(
@@ -59,26 +50,22 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 .build()
                 .show()
         } else {
-            requestLocationPermissions()
+            requestBackgroundPermission()
         }
     }
 
-
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (EasyPermissions.hasPermissions(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            ) {
-                setViewVisibility()
-                launchBackLocationPermission()
-            }
-        } else {
-            setViewVisibility()
-            launchMapFragment()
-        }
+        setViewVisibility()
+        launchMapFragment()
+    }
+
+    private fun requestBackgroundPermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            getString(R.string.Q_access_permission_dialog),
+            PERMISSION_REQUEST_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,31 +74,26 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         if (PermissionsUtility.hasLocationPermission(requireContext())) {
             launchMapFragment()
         }
-        binding.buttonRequestPermission.setOnClickListener {
+        binding.buttonRequestPermissionQ.setOnClickListener {
             if (PermissionsUtility.hasLocationPermission(requireContext())) {
                 launchMapFragment()
             } else {
-                requestLocationPermissions()
+                requestBackgroundPermission()
             }
         }
     }
 
-    private fun launchBackLocationPermission() {
-        findNavController()
-            .navigate(R.id.action_navigation_welcome_to_navigation_background_permission)
-    }
-
     private fun launchMapFragment() {
-        findNavController().navigate(R.id.action_navigation_welcome_to_navigation_map)
+        findNavController().navigate(R.id.action_navigation_background_permission_to_navigation_map)
     }
 
     private fun setViewVisibility() {
         if (PermissionsUtility.hasLocationPermission(requireContext())) {
-            binding.tvPermissionGranted.visibility = View.VISIBLE
-            binding.buttonRequestPermission.visibility = View.GONE
+            binding.tvPermissionGrantedQ.visibility = View.VISIBLE
+            binding.buttonRequestPermissionQ.visibility = View.GONE
         } else {
-            binding.tvPermissionGranted.visibility = View.GONE
-            binding.buttonRequestPermission.visibility = View.VISIBLE
+            binding.tvPermissionGrantedQ.visibility = View.GONE
+            binding.buttonRequestPermissionQ.visibility = View.VISIBLE
         }
     }
 
@@ -130,10 +112,6 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     companion object {
 
         private const val PERMISSION_REQUEST_LOCATION = 100
-
-
-        fun newInstance() = WelcomeFragment()
     }
 
 }
-

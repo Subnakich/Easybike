@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.ui.welcome.WelcomeFragment">
-
+    tools:context=".presentation.ui.backloaction.BackLocationFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
 
 
             <TextView
-                android:id="@+id/tvTitleWelcomeFragment"
+                android:id="@+id/tvTitleWelcomeFragmentQ"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -32,7 +31,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="@string/welcome_title"
+                android:text="@string/back_location_fragment_title"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -43,7 +42,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvDescriptionWelcomeFragment"
+                android:id="@+id/tvDescriptionWelcomeFragmentQ"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -52,7 +51,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="@string/gps_permission_access"
+                android:text="@string/gps_back_permission_access"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/buttonRequestPermission"
@@ -65,7 +64,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/buttonRequestPermission"
+                    android:id="@+id/buttonRequestPermissionQ"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -73,7 +72,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/request_permission"
+                    android:text="@string/request_permission_Q"
                     android:textSize="14sp"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +82,7 @@
                     tools:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/tvPermissionGranted"
+                    android:id="@+id/tvPermissionGrantedQ"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -109,4 +108,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

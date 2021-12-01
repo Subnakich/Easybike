@@ -8,12 +8,29 @@
     <fragment
         android:id="@+id/navigation_welcome"
         android:name="ru.subnak.easybike.presentation.ui.welcome.WelcomeFragment"
-        android:label="Welcome"
+        android:label="@string/title_welcome"
         tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_navigation_welcome_to_navigation_map"
             app:destination="@id/navigation_map"
             app:popUpTo="@id/navigation_map" />
+        <action
+            android:id="@+id/action_navigation_welcome_to_navigation_background_permission"
+            app:destination="@id/navigation_background_permission"
+            app:popUpTo="@id/navigation_background_permission"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_background_permission"
+        android:name="ru.subnak.easybike.presentation.ui.backloaction.BackLocationFragment"
+        android:label="@string/title_back_permission"
+        tools:layout="@layout/fragment_back_location"
+        >
+        <action
+            android:id="@+id/action_navigation_background_permission_to_navigation_map"
+            app:destination="@id/navigation_map"
+            app:popUpTo="@id/navigation_map"/>
     </fragment>
 
     <fragment
@@ -29,7 +46,7 @@
         tools:layout="@layout/fragment_statistic" />
 
     <fragment
-        android:id="@+id/navigationHistoryFragment"
+        android:id="@+id/navigation_history"
         android:name="ru.subnak.easybike.presentation.ui.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history">

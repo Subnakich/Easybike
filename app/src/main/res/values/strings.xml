@@ -10,6 +10,12 @@
     <string name="title_statistic">Statistic</string>
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>
+    <string name="title_welcome">Welcome</string>
+    <string name="title_back_permission">One more permission</string>
+
+    <!-- Util -->
+    <string name="negative_button_cancel">Cancel</string>
+    <string name="positive_button_ok">OK</string>
 
     <!-- journey.xml -->
     <string name="distance">Distance</string>
@@ -23,15 +29,17 @@
     <!-- Welcome Fragment -->
     <string name="welcome_title">Welcome to the EasyBike</string>
     <string name="gps_permission_access">Permission for permanent location tracking is required to use the app. EasyBike will use your location in the background to display your journeys on the map.</string>
-    <string name="request_permission">Request Permission</string>
-    <string name="permission_granted">Permission Granted</string>
+    <string name="request_permission">Request permission</string>
+    <string name="permission_granted">Permission granted</string>
     <string name="cannot_work_without_permission_first">This application cannot work without Location Permission.</string>
     <string name="full_time_access">One more!</string>
     <string name="cant_work">EasyBike cannot work without Location Permission.</string>
-    <string name="Q_access_permission_dialog">Choose \"Allow all the time\" in settings.</string>
-    <string name="negative_button_cancel">Cancel</string>
-    <string name="positive_button_ok">OK</string>
 
+    <!-- BackLocation Fragment -->
+    <string name="back_location_fragment_title">We need one more permission!</string>
+    <string name="gps_back_permission_access">Change configuring location access to \"Allow all the time\". Without this access app cannot work.</string>
+    <string name="Q_access_permission_dialog">Choose \"Allow all the time\" in settings.</string>
+    <string name="request_permission_Q">Request one more</string>
 
     <!-- Other -->
 </resources>
