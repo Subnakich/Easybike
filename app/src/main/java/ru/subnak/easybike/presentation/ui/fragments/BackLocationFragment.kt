@@ -56,7 +56,7 @@ class BackLocationFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         setViewVisibility()
-        launchMapFragment()
+        launchUserCreateFragment()
     }
 
     private fun requestBackgroundPermission() {
@@ -72,18 +72,18 @@ class BackLocationFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onViewCreated(view, savedInstanceState)
 
         if (PermissionsUtility.hasLocationPermission(requireContext())) {
-            launchMapFragment()
+            launchUserCreateFragment()
         }
         binding.buttonRequestPermissionQ.setOnClickListener {
             if (PermissionsUtility.hasLocationPermission(requireContext())) {
-                launchMapFragment()
+                launchUserCreateFragment()
             } else {
                 requestBackgroundPermission()
             }
         }
     }
 
-    private fun launchMapFragment() {
+    private fun launchUserCreateFragment() {
         findNavController().navigate(R.id.action_navigation_background_permission_to_navigation_user_create)
     }
 
@@ -100,7 +100,7 @@ class BackLocationFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onResume() {
         super.onResume()
         if (PermissionsUtility.hasLocationPermission(requireContext())) {
-            launchMapFragment()
+            launchUserCreateFragment()
         }
     }
 

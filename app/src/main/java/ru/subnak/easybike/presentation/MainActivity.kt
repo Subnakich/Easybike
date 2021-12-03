@@ -11,7 +11,7 @@ import ru.subnak.easybike.databinding.ActivityMainBinding
 import ru.subnak.easybike.presentation.ui.fragments.UserFragment
 
 
-class MainActivity : AppCompatActivity(), UserFragment.OnEditingFinishedListener {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
 
@@ -54,11 +54,10 @@ class MainActivity : AppCompatActivity(), UserFragment.OnEditingFinishedListener
                 else -> navView.visibility = View.GONE
             }
         }
+
+
     }
 
-    override fun onEditingFinished() {
-        finish()
-    }
 
 
 }
