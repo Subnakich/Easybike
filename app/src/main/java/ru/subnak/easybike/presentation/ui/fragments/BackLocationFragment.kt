@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.backloaction
+package ru.subnak.easybike.presentation.ui.fragments
 
 import android.Manifest
 import android.os.Build
@@ -84,7 +84,7 @@ class BackLocationFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun launchMapFragment() {
-        findNavController().navigate(R.id.action_navigation_background_permission_to_navigation_map)
+        findNavController().navigate(R.id.action_navigation_background_permission_to_navigation_user_create)
     }
 
     private fun setViewVisibility() {

@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.history
+package ru.subnak.easybike.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentHistoryBinding
 import ru.subnak.easybike.domain.model.Journey
-import ru.subnak.easybike.presentation.JourneyListAdapter
+import ru.subnak.easybike.presentation.ui.adapters.JourneyListAdapter
+import ru.subnak.easybike.presentation.ui.viewmodels.HistoryViewModel
 
 class HistoryFragment : Fragment() {
 

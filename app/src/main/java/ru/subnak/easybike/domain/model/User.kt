@@ -11,6 +11,6 @@ data class User(
 
     companion object {
 
-        const val UNDEFINED_ID = 0
+        const val UNDEFINED_ID = 1
     }
 }

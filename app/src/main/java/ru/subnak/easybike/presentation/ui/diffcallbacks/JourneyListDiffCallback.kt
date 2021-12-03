@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation
+package ru.subnak.easybike.presentation.ui.diffcallbacks
 
 import androidx.recyclerview.widget.DiffUtil
 import ru.subnak.easybike.domain.model.Journey

@@ -14,4 +14,7 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE id=:userID LIMIT 1")
     suspend fun getUser(userID: Int): UserDbModel
+
+    @Query("SELECT EXISTS (SELECT 1 FROM users WHERE id=:userID LIMIT 1 )")
+    suspend fun checkUser(userID: Int): Int
 }

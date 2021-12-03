@@ -3,6 +3,9 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+
+
+    id 'androidx.navigation.safeargs'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
@@ -34,7 +37,6 @@ android {
     }
     buildFeatures {
         dataBinding true
-        viewBinding true
     }
 }
 

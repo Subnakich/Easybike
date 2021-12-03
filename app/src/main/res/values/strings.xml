@@ -12,10 +12,27 @@
     <string name="title_settings">Settings</string>
     <string name="title_welcome">Welcome</string>
     <string name="title_back_permission">One more permission</string>
+    <string name="user_create_title">EasyBike needs some data</string>
+    <string name="user_create_or_edit">You\'r data</string>
+
+    <!-- User Adding or Editing -->
+    <string name="error_input_name">Invalid name</string>
+    <string name="error_input_age">Invalid age</string>
+    <string name="error_input_weight">Invalid weight</string>
+    <string name="error_input_height">Invalid height</string>
+    <string name="error_input_sex">Invalid sex</string>
+    <string name="name_hint">Name:</string>
+    <string name="age_hint">Age:</string>
+    <string name="weight_hint">Weight:</string>
+    <string name="height_hint">Height:</string>
+    <string name="save_btn">Save</string>
+    <string name="male_hint">Male</string>
+    <string name="female_hint">Female</string>
 
     <!-- Util -->
     <string name="negative_button_cancel">Cancel</string>
     <string name="positive_button_ok">OK</string>
+    <string name="lets_do_it">Let\'s do it!</string>
 
     <!-- journey.xml -->
     <string name="distance">Distance</string>
@@ -40,6 +57,9 @@
     <string name="gps_back_permission_access">Change configuring location access to \"Allow all the time\". Without this access app cannot work.</string>
     <string name="Q_access_permission_dialog">Choose \"Allow all the time\" in settings.</string>
     <string name="request_permission_Q">Request one more</string>
+
+    <!-- User Create Fragment -->
+    <string name="need_data">You need to enter your data, which we need to count calories. This data is stored only on your device and is not used for analytics. For more information about what data we collect, you can read the privacy policy</string>
 
     <!-- Other -->
 </resources>

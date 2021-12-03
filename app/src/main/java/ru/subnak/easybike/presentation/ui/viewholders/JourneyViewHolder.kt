@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation
+package ru.subnak.easybike.presentation.ui.viewholders
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.subnak.easybike.databinding.JourneyBinding

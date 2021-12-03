@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.map
+package ru.subnak.easybike.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -25,4 +25,8 @@ class UserRepositoryImpl(
         val dbModel = userDao.getUser(userID)
         return mapper.mapDbModelToEntity(dbModel)
     }
+
+    override suspend fun checkUser(userID: Int): Int {
+        return userDao.checkUser(userID)
+    }
 }

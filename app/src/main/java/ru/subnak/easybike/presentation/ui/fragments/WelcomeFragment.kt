@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.welcome
+package ru.subnak.easybike.presentation.ui.fragments
 
 import android.Manifest
 import android.os.Build
@@ -77,7 +77,7 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         } else {
             setViewVisibility()
-            launchMapFragment()
+            launchUserCreateFragment()
         }
     }
 
@@ -85,11 +85,11 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onViewCreated(view, savedInstanceState)
 
         if (PermissionsUtility.hasLocationPermission(requireContext())) {
-            launchMapFragment()
+            launchUserCreateFragment()
         }
         binding.buttonRequestPermission.setOnClickListener {
             if (PermissionsUtility.hasLocationPermission(requireContext())) {
-                launchMapFragment()
+                launchUserCreateFragment()
             } else {
                 requestLocationPermissions()
             }
@@ -101,8 +101,9 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             .navigate(R.id.action_navigation_welcome_to_navigation_background_permission)
     }
 
-    private fun launchMapFragment() {
-        findNavController().navigate(R.id.action_navigation_welcome_to_navigation_map)
+    private fun launchUserCreateFragment() {
+        findNavController()
+            .navigate(R.id.action_navigation_welcome_to_navigation_user_create)
     }
 
     private fun setViewVisibility() {
@@ -118,7 +119,7 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onResume() {
         super.onResume()
         if (PermissionsUtility.hasLocationPermission(requireContext())) {
-            launchMapFragment()
+            launchUserCreateFragment()
         }
     }
 
@@ -130,9 +131,6 @@ class WelcomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     companion object {
 
         private const val PERMISSION_REQUEST_LOCATION = 100
-
-
-        fun newInstance() = WelcomeFragment()
     }
 
 }

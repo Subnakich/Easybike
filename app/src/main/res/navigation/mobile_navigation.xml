@@ -7,47 +7,57 @@
 
     <fragment
         android:id="@+id/navigation_welcome"
-        android:name="ru.subnak.easybike.presentation.ui.welcome.WelcomeFragment"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.WelcomeFragment"
         android:label="@string/title_welcome"
         tools:layout="@layout/fragment_welcome">
         <action
-            android:id="@+id/action_navigation_welcome_to_navigation_map"
-            app:destination="@id/navigation_map"
-            app:popUpTo="@id/navigation_map" />
-        <action
             android:id="@+id/action_navigation_welcome_to_navigation_background_permission"
             app:destination="@id/navigation_background_permission"
-            app:popUpTo="@id/navigation_background_permission"/>
+            app:popUpTo="@id/navigation_background_permission" />
+        <action
+            android:id="@+id/action_navigation_welcome_to_navigation_user_create"
+            app:destination="@id/navigation_user_create" />
 
     </fragment>
 
     <fragment
         android:id="@+id/navigation_background_permission"
-        android:name="ru.subnak.easybike.presentation.ui.backloaction.BackLocationFragment"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.BackLocationFragment"
         android:label="@string/title_back_permission"
-        tools:layout="@layout/fragment_back_location"
-        >
+        tools:layout="@layout/fragment_back_location">
         <action
-            android:id="@+id/action_navigation_background_permission_to_navigation_map"
-            app:destination="@id/navigation_map"
-            app:popUpTo="@id/navigation_map"/>
+            android:id="@+id/action_navigation_background_permission_to_navigation_user_create"
+            app:destination="@id/navigation_user_create" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_user_create"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.UserCreateFragment"
+        android:label="@string/user_create_title"
+        tools:layout="@layout/fragment_user_create">
+        <action
+            android:id="@+id/action_navigation_user_create_to_navigation_user"
+            app:destination="@id/navigation_user" />
+        <action
+            android:id="@+id/action_navigation_user_create_to_navigation_map"
+            app:destination="@id/navigation_map" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="ru.subnak.easybike.presentation.ui.map.MapsFragment"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.MapsFragment"
         android:label="@string/title_map"
         tools:layout="@layout/fragment_maps" />
 
     <fragment
         android:id="@+id/navigation_statistic"
-        android:name="ru.subnak.easybike.presentation.ui.statistic.StatisticFragment"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.StatisticFragment"
         android:label="@string/title_statistic"
         tools:layout="@layout/fragment_statistic" />
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="ru.subnak.easybike.presentation.ui.history.HistoryFragment"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history">
         <argument
@@ -57,7 +67,21 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="ru.subnak.easybike.presentation.ui.settings.SettingsFragment"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_user"
+        android:name="ru.subnak.easybike.presentation.ui.fragments.UserFragment"
+        android:label="@string/user_create_or_edit"
+        tools:layout="@layout/fragment_user">
+        <argument
+            android:name="mode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_user_to_navigation_map"
+            app:destination="@id/navigation_map" />
+
+    </fragment>
 </navigation>
