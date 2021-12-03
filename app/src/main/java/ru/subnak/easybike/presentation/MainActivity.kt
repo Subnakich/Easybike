@@ -1,16 +1,20 @@
 package ru.subnak.easybike.presentation
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.ActivityMainBinding
+import ru.subnak.easybike.presentation.ui.fragments.UserFragment
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), UserFragment.OnEditingFinishedListener {
 
     private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,5 +44,21 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_map,
+                R.id.navigation_statistic,
+                R.id.navigation_history,
+                R.id.navigation_settings ->
+                    navView.visibility = View.VISIBLE
+                else -> navView.visibility = View.GONE
+            }
+        }
     }
+
+    override fun onEditingFinished() {
+        finish()
+    }
+
+
 }

@@ -9,4 +9,6 @@ interface UserRepository {
     suspend fun editUser(user: User)
 
     suspend fun getUser(userID: Int): User
+
+    suspend fun checkUser(userID: Int): Int
 }

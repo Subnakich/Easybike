@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation
+package ru.subnak.easybike.presentation.ui.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

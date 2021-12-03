@@ -5,7 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class JourneyValue(
-    val valueID: Int,
     val journeyID: Int,
     val latitude: Double,
     val longitude: Double,
@@ -13,5 +12,12 @@ data class JourneyValue(
     val speed: Double,
     val time: Long,
     val systemTime: Long,
-    val accuracy: Double
-) : Parcelable
+    val accuracy: Double,
+    var valueID: Int = UNDEFINED_ID
+) : Parcelable {
+
+    companion object {
+
+        const val UNDEFINED_ID = 0
+    }
+}

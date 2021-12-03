@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.history
+package ru.subnak.easybike.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentHistoryBinding
 import ru.subnak.easybike.domain.model.Journey
-import ru.subnak.easybike.presentation.JourneyListAdapter
+import ru.subnak.easybike.presentation.ui.adapters.JourneyListAdapter
+import ru.subnak.easybike.presentation.ui.viewmodels.HistoryViewModel
 
 class HistoryFragment : Fragment() {
 
@@ -42,6 +43,9 @@ class HistoryFragment : Fragment() {
         viewModel.journeyList.observe(viewLifecycleOwner) {
             journeyListAdapter.submitList(it)
         }
+        val journey = Journey(1,500L,200,10.0,20L,"kek", emptyList())
+        //val journey = Journey(1,5000L,200,20.0,20L,"kek", emptyList())
+        viewModel.addJourney(journey)
     }
 
     private fun setupRecyclerView() {

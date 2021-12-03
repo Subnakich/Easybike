@@ -1,12 +1,13 @@
-package ru.subnak.easybike.presentation.ui.statistic
+package ru.subnak.easybike.presentation.ui.fragments
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import ru.subnak.easybike.R
+import ru.subnak.easybike.presentation.ui.viewmodels.StatisticViewModel
 
 class StatisticFragment : Fragment() {
 
