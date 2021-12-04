@@ -45,21 +45,39 @@
 
     <!-- Welcome Fragment -->
     <string name="welcome_title">Welcome to the EasyBike</string>
-    <string name="gps_permission_access">Permission for permanent location tracking is required to use the app. EasyBike will use your location in the background to display your journeys on the map.</string>
+    <string name="gps_permission_access">Permission for permanent location tracking is required
+        to use the app. EasyBike will use your location in the background to display your
+        journeys on the map.</string>
     <string name="request_permission">Request permission</string>
     <string name="permission_granted">Permission granted</string>
-    <string name="cannot_work_without_permission_first">This application cannot work without Location Permission.</string>
+    <string name="cannot_work_without_permission_first">This application cannot work without
+        Location Permission.</string>
     <string name="full_time_access">One more!</string>
     <string name="cant_work">EasyBike cannot work without Location Permission.</string>
 
     <!-- BackLocation Fragment -->
     <string name="back_location_fragment_title">We need one more permission!</string>
-    <string name="gps_back_permission_access">Change configuring location access to \"Allow all the time\". Without this access app cannot work.</string>
+    <string name="gps_back_permission_access">Change configuring location access
+        to \"Allow all the time\". Without this access app cannot work.</string>
     <string name="Q_access_permission_dialog">Choose \"Allow all the time\" in settings.</string>
     <string name="request_permission_Q">Request one more</string>
 
     <!-- User Create Fragment -->
-    <string name="need_data">You need to enter your data, which we need to count calories. This data is stored only on your device and is not used for analytics. For more information about what data we collect, you can read the privacy policy</string>
+    <string name="need_data">You need to enter your data, which we need to count calories.
+        This data is stored only on your device and is not used for analytics.
+        For more information about what data we collect, you can read the privacy policy</string>
+
+    <!-- Preference -->
+    <string name="user_header">User settings</string>
+    <string name="theme_header">App settings</string>
+    <string name="privacy_policy_header">Privacy policy</string>
+    <string name="user_edit_title">Change user data</string>
+    <string name="night_theme_toggle_title">Dark theme</string>
+    <string name="privacy_policy_title">Open privacy policy</string>
+    <string name="user_edit_key">user_edit</string>
+    <string name="dark_theme_key">dark_theme</string>
+    <string name="privacy_policy_key">privacy_policy</string>
+
 
     <!-- Other -->
 </resources>

@@ -15,11 +15,6 @@ import ru.subnak.easybike.presentation.ui.viewmodels.HistoryViewModel
 
 class HistoryFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HistoryFragment()
-    }
-
-
     private lateinit var viewModel: HistoryViewModel
     private lateinit var journeyListAdapter: JourneyListAdapter
 
