@@ -1,4 +1,4 @@
-package ru.subnak.easybike.presentation.ui.map
+package ru.subnak.easybike.presentation.utils
 
 import android.Manifest
 import android.content.Context
@@ -8,6 +8,8 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.Size
 import androidx.core.content.ContextCompat
+import ru.subnak.easybike.presentation.ui.map.Polyline
+import ru.subnak.easybike.presentation.ui.map.Polylines
 
 object TrackingObject {
 

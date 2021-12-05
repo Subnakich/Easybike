@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,16 +14,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.subnak.easybike.R
-import ru.subnak.easybike.data.entity.JourneyDbModel
 import ru.subnak.easybike.databinding.FragmentMapsBinding
-import ru.subnak.easybike.presentation.ui.map.Consts.ACTION_PAUSE_SERVICE
-import ru.subnak.easybike.presentation.ui.map.Consts.ACTION_START_OR_RESUME_SERVICE
-import ru.subnak.easybike.presentation.ui.map.Consts.ACTION_STOP_SERVICE
-import ru.subnak.easybike.presentation.ui.map.Consts.MAP_ZOOM
-import ru.subnak.easybike.presentation.ui.map.Consts.POLYLINE_COLOR
-import ru.subnak.easybike.presentation.ui.map.Consts.POLYLINE_WIDTH
+import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
+import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
+import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
+import ru.subnak.easybike.presentation.utils.Constants.MAP_ZOOM
+import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_COLOR
+import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_WIDTH
+import ru.subnak.easybike.presentation.utils.TrackingObject
 import java.util.*
 
 class MapsFragment : Fragment() {

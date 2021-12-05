@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="0dp"
         android:paddingBottom="0dp"
-        tools:context=".presentation.ui.map.MapsFragment">
+        tools:context=".presentation.ui.fragments.MapsFragment">
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"

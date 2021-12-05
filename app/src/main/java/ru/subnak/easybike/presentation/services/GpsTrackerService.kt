@@ -2,16 +2,13 @@ package ru.subnak.easybike.presentation.ui.map
 
 import android.annotation.SuppressLint
 import android.app.*
-import android.content.BroadcastReceiver
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.location.Location
 import android.os.Build
 import android.os.Looper
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -24,16 +21,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.subnak.easybike.BuildConfig
 import ru.subnak.easybike.R
-import ru.subnak.easybike.presentation.ui.map.Consts.ACTION_PAUSE_SERVICE
-import ru.subnak.easybike.presentation.ui.map.Consts.ACTION_START_OR_RESUME_SERVICE
-import ru.subnak.easybike.presentation.ui.map.Consts.ACTION_STOP_SERVICE
-import ru.subnak.easybike.presentation.ui.map.Consts.FASTEST_LOCATION_INTERVAL
-import ru.subnak.easybike.presentation.ui.map.Consts.LOCATION_UPDATE_INTERVAL
-import ru.subnak.easybike.presentation.ui.map.Consts.NOTIFICATION_CHANNEL_ID
-import ru.subnak.easybike.presentation.ui.map.Consts.NOTIFICATION_CHANNEL_NAME
-import ru.subnak.easybike.presentation.ui.map.Consts.NOTIFICATION_ID
+import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
+import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
+import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
+import ru.subnak.easybike.presentation.utils.Constants.FASTEST_LOCATION_INTERVAL
+import ru.subnak.easybike.presentation.utils.Constants.LOCATION_UPDATE_INTERVAL
+import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_CHANNEL_ID
+import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_CHANNEL_NAME
+import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_ID
+import ru.subnak.easybike.presentation.utils.TrackingObject
 
 
 typealias Polyline = MutableList<LatLng>
