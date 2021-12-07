@@ -1,12 +1,12 @@
-package ru.subnak.easybike.presentation.ui.map
+package ru.subnak.easybike.presentation.ui.fragments
 
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,6 +16,9 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentMapsBinding
+import ru.subnak.easybike.presentation.ui.map.GpsTrackerService
+import ru.subnak.easybike.presentation.ui.map.Polyline
+import ru.subnak.easybike.presentation.ui.viewmodels.MapViewModel
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
@@ -23,6 +26,7 @@ import ru.subnak.easybike.presentation.utils.Constants.MAP_ZOOM
 import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_COLOR
 import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_WIDTH
 import ru.subnak.easybike.presentation.utils.TrackingObject
+import ru.subnak.easybike.presentation.utils.TrackingObject.sumLengthOfPolylines
 import java.util.*
 
 class MapsFragment : Fragment() {
@@ -38,6 +42,8 @@ class MapsFragment : Fragment() {
     private var distance = 0f
 
     private var speed = 0
+
+    val viewModel: MapViewModel by viewModels()
 
 
 
@@ -193,30 +199,20 @@ class MapsFragment : Fragment() {
             // Current date and time
             val date = Calendar.getInstance().timeInMillis
 
-            TODO("Добавление в дб")
+            TODO("Create journey and add to db")
+
+
+            // Save our journey object to database
+            //viewModel.addJourney(journey)
+
+            stopJourney()
+
         }
     }
     private fun stopJourney() {
         sendCommandToService(ACTION_STOP_SERVICE)
     }
 
-    fun getPolylineLenght(polyline: Polyline): Float {
-        var distance = 0f
-        for (i in 0..polyline.size - 2) {
-            val result = FloatArray(1)
-            val pos1 = polyline[i]
-            val pos2 = polyline[i + 1]
-            Location.distanceBetween(
-                pos1.latitude,
-                pos1.longitude,
-                pos2.latitude,
-                pos2.longitude,
-                result
-            )
-            distance += result[0]
-        }
-        return distance
-    }
 
     private fun moveCameraToUser() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
@@ -229,13 +225,7 @@ class MapsFragment : Fragment() {
         }
     }
 
-    fun sumLengthOfPolylines(polylines: Polylines): Float {
-        var totalDistance = 0f
-        for (i in 0..polylines.size - 1) {
-            totalDistance += getPolylineLenght(polylines[i])
-        }
-        return totalDistance
-    }
+
 
     private fun sendCommandToService(action: String) =requireActivity().startService(Intent(context, GpsTrackerService::class.java).also {
         it.action = action

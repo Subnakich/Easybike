@@ -30,7 +30,9 @@ import ru.subnak.easybike.presentation.utils.Constants.LOCATION_UPDATE_INTERVAL
 import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_CHANNEL_ID
 import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_ID
+import ru.subnak.easybike.presentation.utils.PermissionsUtility
 import ru.subnak.easybike.presentation.utils.TrackingObject
+import java.security.Permissions
 
 
 typealias Polyline = MutableList<LatLng>
@@ -151,7 +153,7 @@ class GpsTrackerService : LifecycleService(){
     @SuppressLint("MissingPermission")
     private fun updateLocationTracking(isTracking: Boolean){
         if (isTracking) {
-            if (TrackingObject.hasLocationPermissions(this)) {
+            if (PermissionsUtility.hasLocationPermission(this)) {
                 val request = LocationRequest().apply {
                     interval = LOCATION_UPDATE_INTERVAL
                     fastestInterval = FASTEST_LOCATION_INTERVAL

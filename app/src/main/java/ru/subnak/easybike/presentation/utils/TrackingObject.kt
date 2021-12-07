@@ -13,21 +13,7 @@ import ru.subnak.easybike.presentation.ui.map.Polylines
 
 object TrackingObject {
 
-    fun hasLocationPermissions(context: Context) =
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            hasPermissions(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        } else {
-            hasPermissions(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
-        }
+
 
     fun getFormattedStopTime(sec: Long): String {
 
@@ -43,7 +29,7 @@ object TrackingObject {
     }
 
     fun getPolylineLenght(polyline: Polyline): Float {
-        var distation = 0f
+        var distance = 0f
         for (i in 0..polyline.size - 2) {
             val result = FloatArray(1)
             val pos1 = polyline[i]
@@ -55,17 +41,17 @@ object TrackingObject {
                 pos2.longitude,
                 result
             )
-            distation += result[0]
+            distance += result[0]
         }
-        return distation
+        return distance
     }
 
     fun sumLengthOfPolylines(polylines: Polylines): Float {
-        var totalDistation = 0f
+        var totalDistance = 0f
         for (i in 0..polylines.size - 1) {
-            totalDistation += getPolylineLenght(polylines[i])
+            totalDistance += getPolylineLenght(polylines[i])
         }
-        return totalDistation
+        return totalDistance
     }
 
     private fun hasPermissions(
