@@ -9,6 +9,7 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Looper
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -108,7 +109,7 @@ class GpsTrackerService : LifecycleService(){
                         startForegroundService()
                         isFirstJourney = false
 
-                        //Toast.makeText(this,"Service Started",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Service Started",Toast.LENGTH_SHORT).show()
                     } else {
                         // When we resume our service, we only want to continue the timer instead of restarting entire service.
                         beginTraining()

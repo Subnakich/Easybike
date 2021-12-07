@@ -60,7 +60,7 @@ class MapsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
-        return binding.root
+
 
         subscribeToObservers()
 
@@ -80,7 +80,7 @@ class MapsFragment : Fragment() {
             endJourneyAndSaveToDb()
         }
 
-
+        return binding.root
     }
 
 
@@ -227,7 +227,7 @@ class MapsFragment : Fragment() {
 
 
 
-    private fun sendCommandToService(action: String) =requireActivity().startService(Intent(context, GpsTrackerService::class.java).also {
+    private fun sendCommandToService(action: String) = requireActivity().startService(Intent(context, GpsTrackerService::class.java).also {
         it.action = action
         requireActivity().startService(it)
     })
