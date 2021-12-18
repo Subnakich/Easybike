@@ -1,12 +1,18 @@
 package ru.subnak.easybike.presentation.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,12 +22,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentMapsBinding
+import ru.subnak.easybike.presentation.MainActivity
 import ru.subnak.easybike.presentation.ui.map.GpsTrackerService
 import ru.subnak.easybike.presentation.ui.map.Polyline
 import ru.subnak.easybike.presentation.ui.viewmodels.MapViewModel
@@ -53,19 +60,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    private var lastKnownLocation: Location? = null
-
-
     val viewModel: MapViewModel by viewModels()
 
 
-    private val callback = OnMapReadyCallback { _ ->
-
+    private val callback = OnMapReadyCallback { gMap ->
+        this.gMap = gMap
     }
 
     private var _binding: FragmentMapsBinding? = null
     private val binding: FragmentMapsBinding
         get() = _binding ?: throw RuntimeException("FragmentMapsBinding == null")
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -85,6 +91,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         binding.mapView.onCreate(savedInstanceState)
 
+
         binding.btStart.setOnClickListener {
             toggleJourney()
         }
@@ -97,59 +104,25 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
-    @SuppressLint("MissingPermission")
     override fun onMapReady(gMap: GoogleMap) {
         this.gMap = gMap
 
-        updateLocationUI()
-
-        getDeviceLocation()
-
-        gMap.setMyLocationEnabled(true)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        //mapFragment.getMapAsync(callback)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(callback)
 
 
     }
+
+
+
+
+
 
     @SuppressLint("MissingPermission")
-    private fun updateLocationUI() {
-        if (gMap == null) {
-            return
-        }
-        gMap?.isMyLocationEnabled = true
-        gMap?.uiSettings?.isMyLocationButtonEnabled = true
-
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getDeviceLocation() {
-
-        val locationResult = fusedLocationProviderClient.lastLocation
-        locationResult.addOnCompleteListener(requireActivity()) { task ->
-            if (task.isSuccessful) {
-                // Set the map's camera position to the current location of the device.
-                lastKnownLocation = task.result
-                if (lastKnownLocation != null) {
-                    gMap?.moveCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            LatLng(
-                                lastKnownLocation!!.latitude,
-                                lastKnownLocation!!.longitude
-                            ), DEFAULT_ZOOM.toFloat()
-                        )
-                    )
-                }
-            }
-        }
-    }
-
-
     private fun subscribeToObservers() {
 
         GpsTrackerService.isTracking.observe(viewLifecycleOwner, Observer {
