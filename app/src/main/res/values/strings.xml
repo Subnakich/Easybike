@@ -42,8 +42,8 @@
     <string name="distance_with_km">%s km</string>
     <string name="speed_with_kmh">%s km/h</string>
     <string name="map_with_path_description">This is map with path image</string>
-    <string name="btStartSetvice">Start</string>
-    <string name="btStopSetvice">Stop</string>
+    <string name="btStartService">Start</string>
+    <string name="btStopService">Stop</string>
 
     <!-- Welcome Fragment -->
     <string name="welcome_title">Welcome to the EasyBike</string>
@@ -81,6 +81,8 @@
     <string name="privacy_policy_key">privacy_policy</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">Start</string>
+    <string name="save">Save</string>
 
 
     <!-- Other -->

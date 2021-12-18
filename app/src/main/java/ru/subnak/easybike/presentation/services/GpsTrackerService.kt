@@ -5,6 +5,7 @@ import android.app.*
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.location.Location
 import android.os.Build
@@ -12,17 +13,24 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
+import dagger.Provides
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.subnak.easybike.R
+import ru.subnak.easybike.presentation.ui.fragments.MapsFragment
+import ru.subnak.easybike.presentation.utils.Constants
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
@@ -34,51 +42,41 @@ import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_ID
 import ru.subnak.easybike.presentation.utils.PermissionsUtility
 import ru.subnak.easybike.presentation.utils.TrackingObject
 import java.security.Permissions
+import javax.inject.Inject
+import androidx.lifecycle.LifecycleService.NOTIFICATION_SERVICE as NOTIFICATION_SERVICE1
 
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
-object DistanceTracker {
-    var totalDistance: Long = 0L
-}
+@AndroidEntryPoint
+class GpsTrackerService : LifecycleService() {
 
-
-class GpsTrackerService : LifecycleService(){
-
-    // This variable will help us know when to start and when to pause / resume our service
     var isFirstJourney = true
 
-    // Timer variables
-
-    // Timer enabled or not
     private var isTimerEnabled = false
 
-    // When our setTimer() function is called, we will store the current time in this variable
     private var timeStarted = 0L // Time when our service was started
 
-    // This is the time of one single lap that happens when setTimer() is called and paused
     private var lapTime = 0L
 
-    // This is the total time our journey has been running
     private var timeRun = 0L
 
-    // This variable will tell whether our service was killed or not
     private var serviceKilled = false
 
-    // This will provide us the current location of user
+    private lateinit var pendingIntent: PendingIntent
+
+    @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    //This is the base notification that will contain title, time and icon
-    lateinit var baseNotificationBuilder: NotificationCompat.Builder
+    @Inject
+    lateinit var baseNotificationBuilder:NotificationCompat.Builder
 
-    // This is the current notification that will contain the action text and action to be performed (pause or resume)
+
     lateinit var curNotificationBuilder: NotificationCompat.Builder
 
-    private var startId = 0
 
-    private lateinit var fusedClient: FusedLocationProviderClient
-
+    lateinit var fusedClient: FusedLocationProviderClient
 
 
     override fun onCreate() {
@@ -109,7 +107,7 @@ class GpsTrackerService : LifecycleService(){
                         startForegroundService()
                         isFirstJourney = false
 
-                        Toast.makeText(this,"Service Started",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show()
                     } else {
                         // When we resume our service, we only want to continue the timer instead of restarting entire service.
                         beginTraining()
@@ -133,6 +131,7 @@ class GpsTrackerService : LifecycleService(){
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
         timeRunInSeconds.postValue(0L)
+
     }
 
     private val locationCallback = object : LocationCallback() {
@@ -152,7 +151,7 @@ class GpsTrackerService : LifecycleService(){
 
 
     @SuppressLint("MissingPermission")
-    private fun updateLocationTracking(isTracking: Boolean){
+    private fun updateLocationTracking(isTracking: Boolean) {
         if (isTracking) {
             if (PermissionsUtility.hasLocationPermission(this)) {
                 val request = LocationRequest().apply {
@@ -181,11 +180,6 @@ class GpsTrackerService : LifecycleService(){
         private const val ACTION_NAME = "Action name"
         private const val ACTION_STOP_TRACKING = "Action stop tracking"
 
-        fun getIntent(context: Context) = Intent(context, GpsTrackerService::class.java)
-
-        fun stopTracking(context: Context) =
-            context.sendBroadcast(Intent(GPS_ACTION).apply { putExtra(ACTION_NAME, ACTION_STOP_TRACKING) })
-
     }
 
     // Function to kill our service
@@ -205,7 +199,7 @@ class GpsTrackerService : LifecycleService(){
     }
 
     @SuppressLint("MissingPermission")
-    private fun startLocationTracking(){
+    private fun startLocationTracking() {
 
         val locationRequest = LocationRequest().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -218,10 +212,7 @@ class GpsTrackerService : LifecycleService(){
         fusedClient.requestLocationUpdates(locationRequest, locationCallback, null)
 
     }
-
-    private fun stopLocationTracking(){
-        fusedClient.removeLocationUpdates(locationCallback)
-    }
+    
 
     private fun addNullPolyline() = pathPoints.value?.apply {
         add(mutableListOf())
@@ -239,6 +230,7 @@ class GpsTrackerService : LifecycleService(){
             }
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         val channel =
@@ -255,7 +247,7 @@ class GpsTrackerService : LifecycleService(){
         CoroutineScope(Dispatchers.Main).launch {
             while (isTracking.value!!) {
                 lapTime = System.currentTimeMillis() - timeStarted
-                timeRunInSeconds.postValue((timeRun + lapTime)/1000)
+                timeRunInSeconds.postValue((timeRun + lapTime) / 1000)
                 delay(1000)
             }
             // Add the lap time to total time
@@ -264,17 +256,16 @@ class GpsTrackerService : LifecycleService(){
     }
 
 
-
     private fun startForegroundService() {
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(notificationManager)
         }
 
         isTracking.postValue(true)
 
-        // Function to start the stopwatch. (We created this function).
         beginTraining()
 
         // Start our service as a foreground service
@@ -282,30 +273,30 @@ class GpsTrackerService : LifecycleService(){
 
         // As time changes and our service is running, we update our notification's content
         timeRunInSeconds.observe(this, Observer {
-            if(!serviceKilled) {
-                val notification = curNotificationBuilder.setContentText(TrackingObject.getFormattedStopTime(it))
-                notificationManager.notify(NOTIFICATION_ID,notification.build())
+            if (!serviceKilled) {
+                val notification =
+                    curNotificationBuilder.setContentText(TrackingObject.getFormattedStopTime(it))
+                notificationManager.notify(NOTIFICATION_ID, notification.build())
             }
         })
 
     }
-
     private fun updateNotificationTrackingState(isTracking: Boolean) {
 
         // Set notification action text
-        val notificationActionText = if(isTracking) "Pause" else "Resume"
+        val notificationActionText = if (isTracking) "Pause" else "Resume"
 
         // Set intent with action according to isTracking variable
-        val pendingIntent = if(isTracking) {
-            val pauseIntent = Intent(this,GpsTrackerService::class.java).apply {
+        val pendingIntent = if (isTracking) {
+            val pauseIntent = Intent(this, GpsTrackerService::class.java).apply {
                 action = ACTION_PAUSE_SERVICE
             }
-            PendingIntent.getService(this,1,pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(this, 1, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         } else {
-            val resumeIntent = Intent(this,GpsTrackerService::class.java).apply {
+            val resumeIntent = Intent(this, GpsTrackerService::class.java).apply {
                 action = ACTION_START_OR_RESUME_SERVICE
             }
-            PendingIntent.getService(this,2,resumeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(this, 2, resumeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
         val notificationManager =
@@ -314,16 +305,26 @@ class GpsTrackerService : LifecycleService(){
         // This piece of code helps in clearing the previous actions
         curNotificationBuilder.javaClass.getDeclaredField("mActions").apply {
             isAccessible = true
-            set(curNotificationBuilder,ArrayList<NotificationCompat.Action>())
+            set(curNotificationBuilder, ArrayList<NotificationCompat.Action>())
         }
 
         // When our service is running, we notify the notification with the required data
-        if(!serviceKilled) {
-            curNotificationBuilder = baseNotificationBuilder.addAction(R.drawable.ic_bike,notificationActionText,pendingIntent)
-            notificationManager.notify(NOTIFICATION_ID,curNotificationBuilder.build())
+        if (!serviceKilled) {
+            curNotificationBuilder = baseNotificationBuilder.addAction(
+                R.drawable.ic_bike,
+                notificationActionText,
+                pendingIntent
+            )
+            notificationManager.notify(NOTIFICATION_ID, curNotificationBuilder.build())
         }
-
     }
 
+
 }
+
+
+
+
+
+
 

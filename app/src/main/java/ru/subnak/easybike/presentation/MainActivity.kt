@@ -7,12 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.ActivityMainBinding
 import ru.subnak.easybike.presentation.ui.viewmodels.MainViewModel
 import ru.subnak.easybike.presentation.utils.Constants
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
