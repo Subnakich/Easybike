@@ -83,6 +83,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">Start</string>
     <string name="save">Save</string>
+    <string name="current_location">You are here</string>
+    <string name="saveButton">Save</string>
+    <string name="startButton">Start</string>
 
 
     <!-- Other -->

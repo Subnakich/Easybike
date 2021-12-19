@@ -51,141 +51,9 @@
             tools:layout_editor_absoluteY="499dp">
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivDistance"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_distance"
-                        app:tint="@color/blue" />
-
-                    <TextView
-                        android:id="@+id/tvDistance"
-                        android:shadowColor="@color/black"
-                        android:shadowRadius="3"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 Km"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:shadowColor="@color/black"
-                        android:shadowRadius="3"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:text="Distance"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivSpeed"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_speed"
-                        app:tint="@color/blue" />
-
-                    <TextView
-                        android:id="@+id/tvSpeed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:shadowColor="@color/black"
-                        android:shadowRadius="3"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:text="0 Km/h"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/speed"
-                        android:textColor="@color/white"
-                        android:shadowColor="@color/black"
-                        android:shadowRadius="3"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivTimer"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_timer"
-                        app:tint="@color/blue" />
-
-                    <TextView
-                        android:id="@+id/tvTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:shadowColor="@color/black"
-                        android:shadowRadius="3"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:text="00:00:00"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:shadowColor="@color/black"
-                        android:shadowRadius="3"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:layout_height="wrap_content"
-                        android:text="Time"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="65dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -198,9 +66,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:backgroundTint="@color/blue"
-                    android:text="Start"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="@string/startButton"
                     android:textColor="#000000"
+                    app:cornerRadius="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -211,9 +80,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#c0c781"
-                    android:text="Save"
+                    android:text="@string/saveButton"
                     android:textColor="#000000"
                     android:visibility="gone"
+                    app:cornerRadius="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -221,6 +91,148 @@
 
 
             </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="419dp"
+                android:layout_height="111dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#79FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivDistance"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:alpha="@integer/material_motion_duration_medium_2"
+                            android:src="@drawable/ic_distance"
+                            app:tint="@color/blue" />
+
+                        <TextView
+                            android:id="@+id/tvDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="0 Km"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="Distance"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivSpeed"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_speed"
+                            app:tint="@color/blue" />
+
+                        <TextView
+                            android:id="@+id/tvSpeed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="0 Km/h"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="@string/speed"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivTimer"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_timer"
+                            app:tint="@color/blue" />
+
+                        <TextView
+                            android:id="@+id/tvTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="00:00:00"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/black"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="Time"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

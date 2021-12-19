@@ -32,17 +32,17 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.LatLng
 import ru.subnak.easybike.R
-import android.util.Log
-
-import android.location.Location
-
 import com.google.android.gms.location.LocationResult
-
 import com.google.android.gms.location.LocationCallback
 import android.os.Looper
+import android.graphics.Bitmap
+
+import android.graphics.BitmapFactory
+import hilt_aggregated_deps._ru_subnak_easybike_presentation_MainActivity_GeneratedInjector
+import android.graphics.drawable.BitmapDrawable
 
 
-
+import android.graphics.drawable.LevelListDrawable
 
 
 
@@ -145,7 +145,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         GpsTrackerService.pathPoints.observe(viewLifecycleOwner, {
             pathPoints = it
-            addLatestPolylineAndMarker()
+            addLatestPolyline()
             moveCameraToUser()
             val distTrack = it
             distance = sumLengthOfPolylines(distTrack)
@@ -173,9 +173,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun setMarker(){
         val mLocationRequest = LocationRequest()
-        mLocationRequest.interval = 3000 // 3 seconds interval
+        mLocationRequest.interval = 2000 // 3 seconds interval
 
-        mLocationRequest.fastestInterval = 3000
+        mLocationRequest.fastestInterval = 2000
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         fusedLocationProviderClient.requestLocationUpdates(
@@ -209,9 +209,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun addLatestPolylineAndMarker() {
+    private fun addLatestPolyline() {
         if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) { // If our distance line is not empty and last polyline contains a start and end point
-            //mCurrLocationMarker?.remove()
+
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
 
@@ -222,21 +222,24 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 .add(lastLatLng)
             gMap?.addPolyline(polylineOptions)
 
-            //currentUserPositionMarker(lastLatLng)
 
         }
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun currentUserPositionMarker(lastLatLng: LatLng) {
 
         val markerOptions = MarkerOptions()
             .position(lastLatLng)
-            .title("You are here")
+            .title(getString(R.string.current_location))
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         mCurrLocationMarker = gMap?.addMarker(markerOptions)!!
         gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, MAP_ZOOM))
 
     }
+
+
 
 
     private fun toggleJourney() {

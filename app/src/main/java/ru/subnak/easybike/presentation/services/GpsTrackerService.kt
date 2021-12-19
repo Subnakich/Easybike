@@ -74,22 +74,19 @@ class GpsTrackerService : LifecycleService() {
     lateinit var curNotificationBuilder: NotificationCompat.Builder
 
 
-    lateinit var fusedClient: FusedLocationProviderClient
 
 
     override fun onCreate() {
         super.onCreate()
 
-        postInit() // Function to post empty values to our live data. (We created this function at bottom).
+        postInit()
 
-        // Initially we set curNotificationBuilder to baseNotificationBuilder to avoid lateinit not initialized exception
         curNotificationBuilder = baseNotificationBuilder
 
         isTracking.observe(this, Observer {
-            // Function to get location of user when tracking is set to true and save it to pathPoints variable. (We created this function at bottom).
+
             updateLocationTracking(it)
 
-            // Function to update the notification whenever we are tracking. (We created this function at bottom).
             updateNotificationTrackingState(it)
         })
     }
@@ -104,17 +101,17 @@ class GpsTrackerService : LifecycleService() {
                         startForegroundService()
                         isFirstJourney = false
 
-                        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Good luck!", Toast.LENGTH_SHORT).show()
                     } else {
                         beginTraining()
 
                     }
                 }
                 ACTION_PAUSE_SERVICE -> {
-                    pauseService() // Function to pause our service. (We created this function at bottom).
+                    pauseService()
                 }
                 ACTION_STOP_SERVICE -> {
-                    stopService() // Function to stop or end our service. (We created this function at bottom).
+                    stopService()
                 }
             }
         }
