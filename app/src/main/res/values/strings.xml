@@ -33,7 +33,7 @@
     <string name="negative_button_cancel">Cancel</string>
     <string name="positive_button_ok">OK</string>
     <string name="lets_do_it">Let\'s do it!</string>
-
+    <string name="current_position">Current position</string>
     <!-- journey.xml -->
     <string name="distance">Distance</string>
     <string name="speed">Speed</string>

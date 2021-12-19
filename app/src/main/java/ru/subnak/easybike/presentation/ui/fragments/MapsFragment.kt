@@ -1,47 +1,38 @@
 package ru.subnak.easybike.presentation.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentMapsBinding
-import ru.subnak.easybike.presentation.MainActivity
 import ru.subnak.easybike.presentation.ui.map.GpsTrackerService
 import ru.subnak.easybike.presentation.ui.map.Polyline
 import ru.subnak.easybike.presentation.ui.viewmodels.MapViewModel
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
-import ru.subnak.easybike.presentation.utils.Constants.DEFAULT_ZOOM
 import ru.subnak.easybike.presentation.utils.Constants.MAP_ZOOM
 import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_COLOR
 import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_WIDTH
 import ru.subnak.easybike.presentation.utils.TrackingObject
 import ru.subnak.easybike.presentation.utils.TrackingObject.sumLengthOfPolylines
 import java.util.*
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.LatLng
+import ru.subnak.easybike.R
+
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
@@ -54,23 +45,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private var timeInSeconds = 0L
 
+
     private var distance = 0f
+
 
     private var speed = 0
 
+    private var mCurrLocationMarker: Marker? = null
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
 
     val viewModel: MapViewModel by viewModels()
 
 
     private val callback = OnMapReadyCallback { gMap ->
         this.gMap = gMap
+
     }
+
 
     private var _binding: FragmentMapsBinding? = null
     private val binding: FragmentMapsBinding
         get() = _binding ?: throw RuntimeException("FragmentMapsBinding == null")
-
 
 
     override fun onCreateView(
@@ -82,6 +79,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             LocationServices.getFusedLocationProviderClient(requireContext())
 
         subscribeToObservers()
+
 
         binding.mapView.getMapAsync {
             gMap =
@@ -104,10 +102,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
+
+    @SuppressLint("MissingPermission")
     override fun onMapReady(gMap: GoogleMap) {
         this.gMap = gMap
+        gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        gMap.uiSettings.isMapToolbarEnabled = true
+
 
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -118,10 +123,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-
-
-
-
     @SuppressLint("MissingPermission")
     private fun subscribeToObservers() {
 
@@ -129,9 +130,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             updateTracking(it)
         })
 
+
         GpsTrackerService.pathPoints.observe(viewLifecycleOwner, {
             pathPoints = it
-            addLatestPolyline()
+            addLatestPolylineAndMarker()
             moveCameraToUser()
             val distTrack = it
             distance = sumLengthOfPolylines(distTrack)
@@ -156,6 +158,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+
     private fun addAllPolylines() {
         for (polyline in pathPoints) {
             val polylineOptions = PolylineOptions()
@@ -166,8 +169,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun addLatestPolyline() {
+    private fun addLatestPolylineAndMarker() {
         if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) { // If our distance line is not empty and last polyline contains a start and end point
+            mCurrLocationMarker?.remove()
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
 
@@ -176,10 +180,22 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 .width(POLYLINE_WIDTH)
                 .add(preLastLatLng)
                 .add(lastLatLng)
-
             gMap?.addPolyline(polylineOptions)
 
+            currentUserPositionMarker(lastLatLng)
+
         }
+    }
+
+
+    private fun currentUserPositionMarker(lastLatLng: LatLng) {
+
+        val markerOptions = MarkerOptions()
+            .position(lastLatLng)
+            .title("You are here")
+        mCurrLocationMarker = gMap?.addMarker(markerOptions)!!
+        gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, MAP_ZOOM))
+
     }
 
 
@@ -267,17 +283,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     // Following are the functions to handle the lifecycle of our map. Removing these functions may cause the app to crash.
     override fun onResume() {
         super.onResume()
-        binding.mapView?.onResume()
+        binding.mapView.onResume()
     }
 
     override fun onStart() {
         super.onStart()
-        binding.mapView?.onStart()
+        binding.mapView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        binding.mapView?.onStop()
+        binding.mapView.onStop()
     }
 
     override fun onPause() {

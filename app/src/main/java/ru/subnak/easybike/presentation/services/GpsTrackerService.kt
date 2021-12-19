@@ -64,8 +64,6 @@ class GpsTrackerService : LifecycleService() {
 
     private var serviceKilled = false
 
-    private lateinit var pendingIntent: PendingIntent
-
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -103,16 +101,13 @@ class GpsTrackerService : LifecycleService() {
             when (it.action) {
                 ACTION_START_OR_RESUME_SERVICE -> {
                     if (isFirstJourney) {
-                        // Function to start this service. (We created this function at bottom).
                         startForegroundService()
                         isFirstJourney = false
 
                         Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show()
                     } else {
-                        // When we resume our service, we only want to continue the timer instead of restarting entire service.
                         beginTraining()
 
-                        //Toast.makeText(this,"Service Resumed",Toast.LENGTH_SHORT).show()
                     }
                 }
                 ACTION_PAUSE_SERVICE -> {
@@ -163,7 +158,7 @@ class GpsTrackerService : LifecycleService() {
                     request,
                     locationCallback,
                     Looper.getMainLooper()
-                ) // Get the current location of user using the fused location provider client
+                )
             } else {
                 fusedLocationProviderClient.removeLocationUpdates(locationCallback)
             }
@@ -176,13 +171,9 @@ class GpsTrackerService : LifecycleService() {
         val pathPoints = MutableLiveData<Polylines>()
         val timeRunInSeconds = MutableLiveData<Long>()
 
-        private const val GPS_ACTION = "GPS action"
-        private const val ACTION_NAME = "Action name"
-        private const val ACTION_STOP_TRACKING = "Action stop tracking"
 
     }
 
-    // Function to kill our service
     private fun stopService() {
         serviceKilled = true
         isFirstJourney = true
@@ -192,27 +183,12 @@ class GpsTrackerService : LifecycleService() {
         stopSelf()
     }
 
-    // Function to pause our service
     private fun pauseService() {
         isTracking.postValue(false)
         isTimerEnabled = false
     }
 
-    @SuppressLint("MissingPermission")
-    private fun startLocationTracking() {
 
-        val locationRequest = LocationRequest().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 5000
-            smallestDisplacement = 10.0F
-        }
-
-
-        fusedClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedClient.requestLocationUpdates(locationRequest, locationCallback, null)
-
-    }
-    
 
     private fun addNullPolyline() = pathPoints.value?.apply {
         add(mutableListOf())
@@ -221,10 +197,8 @@ class GpsTrackerService : LifecycleService() {
 
     private fun addLocationPoint(location: Location?) {
         location?.let {
-            // Get latitudes and longitudes of user's current location
             val pos = LatLng(location.latitude, location.longitude)
             pathPoints.value?.apply {
-                // Add the position to end of our pathPoints variable
                 last().add(pos)
                 pathPoints.postValue(this)
             }
@@ -268,10 +242,8 @@ class GpsTrackerService : LifecycleService() {
 
         beginTraining()
 
-        // Start our service as a foreground service
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
 
-        // As time changes and our service is running, we update our notification's content
         timeRunInSeconds.observe(this, Observer {
             if (!serviceKilled) {
                 val notification =
