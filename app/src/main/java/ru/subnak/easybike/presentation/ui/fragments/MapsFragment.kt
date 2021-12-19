@@ -32,6 +32,20 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.LatLng
 import ru.subnak.easybike.R
+import android.util.Log
+
+import android.location.Location
+
+import com.google.android.gms.location.LocationResult
+
+import com.google.android.gms.location.LocationCallback
+import android.os.Looper
+
+
+
+
+
+
 
 
 @AndroidEntryPoint
@@ -61,14 +75,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val callback = OnMapReadyCallback { gMap ->
         this.gMap = gMap
-
     }
 
 
     private var _binding: FragmentMapsBinding? = null
     private val binding: FragmentMapsBinding
         get() = _binding ?: throw RuntimeException("FragmentMapsBinding == null")
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -79,6 +91,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             LocationServices.getFusedLocationProviderClient(requireContext())
 
         subscribeToObservers()
+        setMarker()
 
 
         binding.mapView.getMapAsync {
@@ -108,7 +121,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         this.gMap = gMap
         gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         gMap.uiSettings.isMapToolbarEnabled = true
-
 
     }
 
@@ -158,6 +170,34 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    @SuppressLint("MissingPermission")
+    private fun setMarker(){
+        val mLocationRequest = LocationRequest()
+        mLocationRequest.interval = 3000 // 3 seconds interval
+
+        mLocationRequest.fastestInterval = 3000
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        fusedLocationProviderClient.requestLocationUpdates(
+            mLocationRequest,
+            mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    var mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val locationList = locationResult.locations
+            if (locationList.size > 0) {
+                val location = locationList[locationList.size - 1]
+                    mCurrLocationMarker?.remove()
+                val latLng = LatLng(location.latitude, location.longitude)
+
+                currentUserPositionMarker(latLng)
+            }
+        }
+    }
+
 
     private fun addAllPolylines() {
         for (polyline in pathPoints) {
@@ -171,7 +211,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun addLatestPolylineAndMarker() {
         if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) { // If our distance line is not empty and last polyline contains a start and end point
-            mCurrLocationMarker?.remove()
+            //mCurrLocationMarker?.remove()
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
 
@@ -182,7 +222,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 .add(lastLatLng)
             gMap?.addPolyline(polylineOptions)
 
-            currentUserPositionMarker(lastLatLng)
+            //currentUserPositionMarker(lastLatLng)
 
         }
     }
