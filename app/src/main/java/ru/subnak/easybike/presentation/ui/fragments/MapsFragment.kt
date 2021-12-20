@@ -10,10 +10,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.subnak.easybike.databinding.FragmentMapsBinding
 import ru.subnak.easybike.presentation.ui.map.GpsTrackerService
@@ -52,6 +48,13 @@ import ru.subnak.easybike.domain.model.JourneyValue
 import ru.subnak.easybike.presentation.utils.Constants
 import java.io.File
 import kotlin.math.roundToInt
+import android.provider.MediaStore
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.*
+import ru.subnak.easybike.presentation.ui.viewmodels.HistoryViewModel
+
+import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
@@ -82,7 +85,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
 
-    val viewModel: MapViewModel by viewModels()
+    private lateinit var viewModel: MapViewModel
 
 
     private val callback = OnMapReadyCallback { gMap ->
@@ -98,6 +101,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[MapViewModel::class.java]
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
@@ -192,29 +196,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return speed
     }
 
-    private fun addToDb() {
-        val date = Calendar.getInstance().timeInMillis
-        val journey = Journey(
-            Constants.UNDEFINED_ID,
-            date,
-            getSpeed(),
-            distance,
-            timeInSeconds,
-            "//TODO()",
-            points
-        )
-        viewModel.addJourney(journey)
-    }
 
     @SuppressLint("SdCardPath")
-    private fun saveBmp(bmp: Bitmap) {
-        //TODO()
-        val filename = "image$idOfIMG.bpm"
+    private fun saveBmp(bmp: Bitmap?):String {
+        val filename = "image$idOfIMG.bmp"
         idOfIMG++
         val path = "/mnt/sdcard/easybike/$filename"
-        val f = File(path)
-        val yourUri: Uri = Uri.fromFile(f)
+        val outFile = File(path, filename)
+        val outStream = FileOutputStream(outFile)
+        bmp?.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+        outStream.flush()
+        outStream.close()
+        return Uri.parse(path).toString()
     }
+
 
     @SuppressLint("MissingPermission")
     private fun setMarker(){
@@ -337,22 +332,24 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun endJourneyAndSaveToDb() {
         gMap?.snapshot { bmp ->
-            if (bmp != null) {
-                saveBmp(bmp)
-            }
-            var distance = 0
+
+            var distance = 0f
             for (polyline in pathPoints) {
-                distance += (TrackingObject.getPolylineLenght(polyline).toInt()) / 1000
+                distance += ((TrackingObject.getPolylineLenght(polyline).toInt()) / 1000)
             }
 
-            // Current date and time
+            val date = Calendar.getInstance().timeInMillis
+            val journey = Journey(
+                Constants.UNDEFINED_ID,
+                date,
+                getSpeed(),
+                distance,
+                timeInSeconds,
+                saveBmp(bmp),
+                points
+            )
 
-
-            addToDb()
-
-
-            // Save our journey object to database
-            //viewModel.addJourney(journey)
+            viewModel.addJourney(journey)
 
             stopJourney()
 

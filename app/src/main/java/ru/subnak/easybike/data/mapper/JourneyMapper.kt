@@ -1,5 +1,6 @@
 package ru.subnak.easybike.data.mapper
 
+import androidx.core.graphics.drawable.toIcon
 import ru.subnak.easybike.data.entity.JourneyDbModel
 import ru.subnak.easybike.data.entity.JourneyValueDbModel
 import ru.subnak.easybike.data.relation.JourneyWithJourneyValueList

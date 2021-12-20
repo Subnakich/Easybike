@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.subnak.easybike.R
+import ru.subnak.easybike.data.dao.JourneyValueListDao
 import ru.subnak.easybike.domain.model.JourneyValue
 import ru.subnak.easybike.presentation.ui.fragments.MapsFragment
 import ru.subnak.easybike.presentation.utils.Constants
@@ -195,6 +196,11 @@ class GpsTrackerService : LifecycleService() {
         pathPoints.postValue(this)
     } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
 
+    private fun addNullJourneyValue() = points.value?.apply {
+        add(JourneyValue(0.0,0.0,0.0,0f,0L,0L,0f,0,0))
+        points.postValue(this)
+    } ?: points.postValue(mutableListOf())
+
     private fun addLocationPoint(location: Location?) {
         location?.let {
             val pos = LatLng(location.latitude, location.longitude)
@@ -229,6 +235,7 @@ class GpsTrackerService : LifecycleService() {
 
     private fun beginTraining() {
         addNullPolyline()
+        addNullJourneyValue()
         isTracking.postValue(true)
         timeStarted = System.currentTimeMillis()
         isTimerEnabled = true
