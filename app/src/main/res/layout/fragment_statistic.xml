@@ -2,8 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".presentation.ui.fragments.StatisticFragment">
 
     <data>
@@ -14,6 +12,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvvv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
@@ -38,12 +37,11 @@
 
 
                 <ImageView
-                    android:id="@+id/ivMap"
+                    android:id="@+id/ivMapStat"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/map_with_path_description"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_journey"
                     tools:srcCompat="@drawable/ic_journey" />
 
             </androidx.cardview.widget.CardView>
@@ -74,11 +72,11 @@
                         tools:text="Distance" />
 
                     <TextView
+                        android:id="@+id/tvDistanceStat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="14sp"
-                        app:bindDistanceToString="@{journey.distance}"
                         tools:text="10 km" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -98,11 +96,11 @@
                         tools:text="Speed" />
 
                     <TextView
+                        android:id="@+id/tvSpeedStat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="14sp"
-                        app:bindSpeedToString="@{journey.speed}"
                         tools:text="10 km/h" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -122,11 +120,11 @@
                         tools:text="Duration" />
 
                     <TextView
+                        android:id="@+id/tvDurationStat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="14sp"
-                        app:bindDurationToString="@{journey.duration}"
                         tools:text="10 km" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -165,7 +163,7 @@
                 app:layout_constraintTop_toBottomOf="@id/llStat">
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
+                    android:id="@+id/lineChart1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"

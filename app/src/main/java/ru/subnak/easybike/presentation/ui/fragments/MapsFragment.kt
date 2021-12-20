@@ -196,21 +196,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return speed
     }
 
-
-    @SuppressLint("SdCardPath")
-    private fun saveBmp(bmp: Bitmap?):String {
-        val filename = "image$idOfIMG.bmp"
-        idOfIMG++
-        val path = "/mnt/sdcard/easybike/$filename"
-        val outFile = File(path, filename)
-        val outStream = FileOutputStream(outFile)
-        bmp?.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
-        outStream.flush()
-        outStream.close()
-        return Uri.parse(path).toString()
-    }
-
-
     @SuppressLint("MissingPermission")
     private fun setMarker(){
         val mLocationRequest = LocationRequest()
@@ -332,20 +317,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun endJourneyAndSaveToDb() {
         gMap?.snapshot { bmp ->
-
-            var distance = 0f
-            for (polyline in pathPoints) {
-                distance += ((TrackingObject.getPolylineLenght(polyline).toInt()) / 1000)
-            }
-
+            val distanceFin = (distance / 1000)
             val date = Calendar.getInstance().timeInMillis
             val journey = Journey(
                 Constants.UNDEFINED_ID,
                 date,
                 getSpeed(),
-                distance,
+                distanceFin,
                 timeInSeconds,
-                saveBmp(bmp),
+                bmp,
                 points
             )
 

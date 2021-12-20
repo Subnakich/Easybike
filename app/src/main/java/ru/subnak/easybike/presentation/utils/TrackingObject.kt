@@ -54,27 +54,5 @@ object TrackingObject {
         return totalDistance
     }
 
-    private fun hasPermissions(
-        context: Context,
-        @Size(min = 1) vararg perms: String
-    ): Boolean {
-        // Always return true for SDK < M, let the system deal with the permissions
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            Log.w("PERMISSIONS", "Android version < 6")
-
-            return true
-        }
-
-        requireNotNull(context) { "Can't check permissions for null context" }
-        for (perm in perms) {
-            if (ContextCompat.checkSelfPermission(context, perm)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                return false
-            }
-        }
-        return true
-    }
-
 
 }

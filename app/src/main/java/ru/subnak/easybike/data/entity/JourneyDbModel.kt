@@ -1,8 +1,11 @@
 package ru.subnak.easybike.data.entity
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import ru.subnak.easybike.data.Converters
 
 @Entity(
     tableName = "journeys",
@@ -18,5 +21,5 @@ data class JourneyDbModel(
     val speed: Int,
     val distance: Float,
     val duration: Long,
-    val img: String
+    val img: Bitmap? = null
 )

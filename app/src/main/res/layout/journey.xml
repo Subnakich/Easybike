@@ -46,7 +46,7 @@
                     android:layout_width="150dp"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_journey"
+                    app:bindIMG="@{journey.img}"
                     tools:srcCompat="@drawable/ic_journey"
                     android:contentDescription="@string/map_with_path_description" />
             </androidx.cardview.widget.CardView>
