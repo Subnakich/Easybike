@@ -93,13 +93,14 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="419dp"
+                android:layout_width="match_parent"
                 android:layout_height="111dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="#79FFFFFF"
+                app:cardBackgroundColor="#83673AB7"
                 app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -107,7 +108,7 @@
                 <LinearLayout
                     android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
-                    android:layout_height="96dp"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     android:weightSum="3">
@@ -125,7 +126,7 @@
                             android:layout_height="30dp"
                             android:alpha="@integer/material_motion_duration_medium_2"
                             android:src="@drawable/ic_distance"
-                            app:tint="@color/blue" />
+                            app:tint="@color/white" />
 
                         <TextView
                             android:id="@+id/tvDistance"
@@ -164,7 +165,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_speed"
-                            app:tint="@color/blue" />
+                            app:tint="@color/white" />
 
                         <TextView
                             android:id="@+id/tvSpeed"
@@ -203,7 +204,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_timer"
-                            app:tint="@color/blue" />
+                            app:tint="@color/white" />
 
                         <TextView
                             android:id="@+id/tvTime"

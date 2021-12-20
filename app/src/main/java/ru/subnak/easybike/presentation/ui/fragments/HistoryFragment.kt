@@ -39,6 +39,7 @@ class HistoryFragment : Fragment() {
         viewModel.journeyList.observe(viewLifecycleOwner) {
             journeyListAdapter.submitList(it)
         }
+
     }
 
     private fun setupRecyclerView() {

@@ -23,6 +23,6 @@ object Constants {
 
     const val POLYLINE_COLOR = Color.GREEN
     const val POLYLINE_WIDTH = 8f
-    const val MAP_ZOOM = 17.5f
+    const val MAP_ZOOM = 20.5f
 
 }
