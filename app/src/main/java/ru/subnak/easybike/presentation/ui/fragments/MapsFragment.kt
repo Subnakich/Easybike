@@ -1,6 +1,7 @@
 package ru.subnak.easybike.presentation.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,12 +39,14 @@ import android.os.Looper
 import android.graphics.Bitmap
 
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import hilt_aggregated_deps._ru_subnak_easybike_presentation_MainActivity_GeneratedInjector
 import android.graphics.drawable.BitmapDrawable
 
 
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
+import androidx.core.content.ContextCompat
 import ru.subnak.easybike.domain.model.Journey
 import ru.subnak.easybike.domain.model.JourneyValue
 import ru.subnak.easybike.presentation.utils.Constants
@@ -270,6 +273,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
+        }
+    }
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun currentUserPositionMarker(lastLatLng: LatLng) {
@@ -277,7 +289,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val markerOptions = MarkerOptions()
             .position(lastLatLng)
             .title(getString(R.string.current_location))
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            .icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.ic_marker))
         mCurrLocationMarker = gMap?.addMarker(markerOptions)!!
         gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, MAP_ZOOM))
 
