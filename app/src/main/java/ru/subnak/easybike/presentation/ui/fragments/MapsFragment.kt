@@ -43,13 +43,18 @@ import android.graphics.drawable.BitmapDrawable
 
 
 import android.graphics.drawable.LevelListDrawable
-
-
-
+import android.net.Uri
+import ru.subnak.easybike.domain.model.Journey
+import ru.subnak.easybike.domain.model.JourneyValue
+import ru.subnak.easybike.presentation.utils.Constants
+import java.io.File
+import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
+
+
 
     private var gMap: GoogleMap? = null
 
@@ -57,10 +62,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private var pathPoints = mutableListOf<Polyline>()
 
+    private var points = mutableListOf<JourneyValue>()
+
     private var timeInSeconds = 0L
 
 
     private var distance = 0f
+
+    private var idOfIMG = 0
 
 
     private var speed = 0
@@ -152,6 +161,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             binding.tvDistance.text = "${Math.round((distance / 1000f) * 10) / 10} km"
         })
 
+        GpsTrackerService.points.observe(viewLifecycleOwner, {
+            points = it
+        })
+
         GpsTrackerService.timeRunInSeconds.observe(viewLifecycleOwner, {
             timeInSeconds = it
             val formattedTime = TrackingObject.getFormattedStopTime(timeInSeconds)
@@ -170,6 +183,36 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    private fun getSpeed(): Int {
+        speed =
+            ((((distance / timeInSeconds) * (3600 / 1000)) * 10) / 10).roundToInt()
+        return speed
+    }
+
+    private fun addToDb() {
+        val date = Calendar.getInstance().timeInMillis
+        val journey = Journey(
+            Constants.UNDEFINED_ID,
+            date,
+            getSpeed(),
+            distance,
+            timeInSeconds,
+            "//TODO()",
+            points
+        )
+        viewModel.addJourney(journey)
+    }
+
+    @SuppressLint("SdCardPath")
+    private fun saveBmp(bmp: Bitmap) {
+        //TODO()
+        val filename = "image$idOfIMG.bpm"
+        idOfIMG++
+        val path = "/mnt/sdcard/easybike/$filename"
+        val f = File(path)
+        val yourUri: Uri = Uri.fromFile(f)
+    }
+
     @SuppressLint("MissingPermission")
     private fun setMarker(){
         val mLocationRequest = LocationRequest()
@@ -181,9 +224,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         fusedLocationProviderClient.requestLocationUpdates(
             mLocationRequest,
             mLocationCallback,
-            Looper.myLooper()
+            Looper.myLooper()!!
         )
     }
+
+
 
     var mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
@@ -192,7 +237,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 val location = locationList[locationList.size - 1]
                     mCurrLocationMarker?.remove()
                 val latLng = LatLng(location.latitude, location.longitude)
-
                 currentUserPositionMarker(latLng)
             }
         }
@@ -281,15 +325,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun endJourneyAndSaveToDb() {
         gMap?.snapshot { bmp ->
+            if (bmp != null) {
+                saveBmp(bmp)
+            }
             var distance = 0
             for (polyline in pathPoints) {
                 distance += (TrackingObject.getPolylineLenght(polyline).toInt()) / 1000
             }
 
             // Current date and time
-            val date = Calendar.getInstance().timeInMillis
 
-            TODO("Create journey and add to db")
+
+            addToDb()
 
 
             // Save our journey object to database

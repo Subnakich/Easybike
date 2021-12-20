@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.subnak.easybike.R
+import ru.subnak.easybike.domain.model.JourneyValue
 import ru.subnak.easybike.presentation.ui.fragments.MapsFragment
 import ru.subnak.easybike.presentation.utils.Constants
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
@@ -42,7 +43,9 @@ import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_ID
 import ru.subnak.easybike.presentation.utils.PermissionsUtility
 import ru.subnak.easybike.presentation.utils.TrackingObject
 import java.security.Permissions
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import androidx.lifecycle.LifecycleService.NOTIFICATION_SERVICE as NOTIFICATION_SERVICE1
 
 
@@ -167,7 +170,7 @@ class GpsTrackerService : LifecycleService() {
         val isTracking = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
         val timeRunInSeconds = MutableLiveData<Long>()
-
+        val points = MutableLiveData<MutableList<JourneyValue>>()
 
     }
 
@@ -199,7 +202,21 @@ class GpsTrackerService : LifecycleService() {
                 last().add(pos)
                 pathPoints.postValue(this)
             }
+            val systemTime =  Calendar.getInstance().timeInMillis
+            val journeyValue = JourneyValue(
+                location.latitude,
+                location.longitude,
+                location.altitude,
+                location.speed,
+                location.time,
+                systemTime,
+                location.accuracy
+            )
+            val value = points.value
+            value?.add(journeyValue)
+            points.value = value!!
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

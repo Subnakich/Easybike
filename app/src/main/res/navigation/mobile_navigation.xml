@@ -82,7 +82,11 @@
         android:id="@+id/navigation_statistic"
         android:name="ru.subnak.easybike.presentation.ui.fragments.StatisticFragment"
         android:label="@string/title_statistic"
-        tools:layout="@layout/fragment_statistic" />
+        tools:layout="@layout/fragment_statistic">
+        <argument
+            android:name="journey"
+            app:argType="ru.subnak.easybike.domain.model.Journey" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_history"
@@ -92,13 +96,15 @@
         <argument
             android:name="journey"
             app:argType="ru.subnak.easybike.domain.model.Journey" />
+        <action
+            android:id="@+id/action_navigation_history_to_navigation_statistic"
+            app:destination="@id/navigation_statistic" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="ru.subnak.easybike.presentation.ui.fragments.SettingsFragment"
-        android:label="@string/title_settings"
-        >
+        android:label="@string/title_settings">
         <action
             android:id="@+id/action_navigation_settings_to_navigation_user"
             app:destination="@id/navigation_user"
@@ -145,7 +151,5 @@
         android:id="@+id/navigation_privacy_policy"
         android:name="ru.subnak.easybike.presentation.ui.fragments.PrivacyPolicyFragment"
         android:label="@string/privacy_policy_header"
-        tools:layout="@layout/fragment_privacy_policy"
-        >
-    </fragment>
+        tools:layout="@layout/fragment_privacy_policy" />
 </navigation>

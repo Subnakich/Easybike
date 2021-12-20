@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentHistoryBinding
@@ -38,9 +39,6 @@ class HistoryFragment : Fragment() {
         viewModel.journeyList.observe(viewLifecycleOwner) {
             journeyListAdapter.submitList(it)
         }
-        val journey = Journey(1,500L,200,10.0,20L,"kek", emptyList())
-        //val journey = Journey(1,5000L,200,20.0,20L,"kek", emptyList())
-        viewModel.addJourney(journey)
     }
 
     private fun setupRecyclerView() {
@@ -49,6 +47,7 @@ class HistoryFragment : Fragment() {
             adapter = journeyListAdapter
         }
         setupLongClickListener()
+        setupClickListener()
     }
 
     override fun onDestroyView() {
@@ -56,19 +55,49 @@ class HistoryFragment : Fragment() {
         _binding = null
     }
 
+    private fun setupClickListener() {
+        journeyListAdapter.onJourneyClickListener = {
+            runStatistic(it)
+        }
+    }
+
     private fun setupLongClickListener() {
         journeyListAdapter.onJourneyLongClickListener = {
-            showDeleteJourneyDialog(it)
+            showMenuOfJourneyDialog(it)
         }
+    }
+
+    private fun runStatistic(journey: Journey) {
+        findNavController().navigate(
+            HistoryFragmentDirections.actionNavigationHistoryToNavigationStatistic(journey)
+        )
+    }
+
+    private fun showMenuOfJourneyDialog(journey: Journey) {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Journey menu")
+            .setItems(R.array.dialog_menu) { d, k ->
+                when (k) {
+                    0 -> runStatistic(journey)
+                    1 -> runStatistic(journey)
+                    2 -> showDeleteJourneyDialog(journey)
+                }
+            }
+            .create()
+        dialog.show()
     }
 
     private fun showDeleteJourneyDialog(journey: Journey) {
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Cancel the Journey")
-            .setMessage("Are you sure you want to cancel this journey")
+            .setTitle(getString(R.string.delete_the_journey))
+            .setMessage(getString(R.string.sure_question_delete_hourney))
             .setIcon(R.drawable.ic_delete)
-            .setPositiveButton("Yes") { _, _ -> viewModel.deleteJourney(journey) }
-            .setNegativeButton("No") { d, _ -> d.cancel() }
+            .setPositiveButton(getString(R.string.positive_button_ok)) { _, _ ->
+                viewModel.deleteJourney(
+                    journey
+                )
+            }
+            .setNegativeButton(getString(R.string.negative_button_cancel)) { d, _ -> d.cancel() }
             .create()
 
         dialog.show()

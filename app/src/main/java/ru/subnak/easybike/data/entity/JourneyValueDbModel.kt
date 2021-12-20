@@ -25,8 +25,8 @@ data class JourneyValueDbModel(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
     val altitude: Double = 0.0,
-    val speed: Double = 0.0,
+    val speed: Float = 0F,
     val time: Long = 0L,
     val systemTime: Long = 0L,
-    val accuracy: Double = 0.0
+    val accuracy: Float = 0F
 )

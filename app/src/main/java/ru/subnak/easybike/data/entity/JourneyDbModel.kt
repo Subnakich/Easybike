@@ -16,7 +16,7 @@ data class JourneyDbModel(
     val userID: Int,
     val date: Long,
     val speed: Int,
-    val distance: Double,
+    val distance: Float,
     val duration: Long,
     val img: String
 )
