@@ -182,6 +182,7 @@ class GpsTrackerService : LifecycleService() {
         postInit()
         stopForeground(true)
         stopSelf()
+
     }
 
     private fun pauseService() {
@@ -276,10 +277,8 @@ class GpsTrackerService : LifecycleService() {
     }
     private fun updateNotificationTrackingState(isTracking: Boolean) {
 
-        // Set notification action text
         val notificationActionText = if (isTracking) "Pause" else "Resume"
 
-        // Set intent with action according to isTracking variable
         val pendingIntent = if (isTracking) {
             val pauseIntent = Intent(this, GpsTrackerService::class.java).apply {
                 action = ACTION_PAUSE_SERVICE

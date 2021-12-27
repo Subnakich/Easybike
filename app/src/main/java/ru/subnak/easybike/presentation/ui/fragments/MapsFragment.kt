@@ -1,20 +1,33 @@
 package ru.subnak.easybike.presentation.ui.fragments
 
+
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
+import ru.subnak.easybike.R
 import ru.subnak.easybike.databinding.FragmentMapsBinding
+import ru.subnak.easybike.domain.model.Journey
+import ru.subnak.easybike.domain.model.JourneyValue
 import ru.subnak.easybike.presentation.ui.map.GpsTrackerService
 import ru.subnak.easybike.presentation.ui.map.Polyline
 import ru.subnak.easybike.presentation.ui.viewmodels.MapViewModel
+import ru.subnak.easybike.presentation.utils.Constants
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
@@ -24,37 +37,25 @@ import ru.subnak.easybike.presentation.utils.Constants.POLYLINE_WIDTH
 import ru.subnak.easybike.presentation.utils.TrackingObject
 import ru.subnak.easybike.presentation.utils.TrackingObject.sumLengthOfPolylines
 import java.util.*
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.*
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.LatLng
-import ru.subnak.easybike.R
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationCallback
-import android.os.Looper
-import android.graphics.Bitmap
-
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import hilt_aggregated_deps._ru_subnak_easybike_presentation_MainActivity_GeneratedInjector
-import android.graphics.drawable.BitmapDrawable
-
-
-import android.graphics.drawable.LevelListDrawable
-import android.net.Uri
-import androidx.core.content.ContextCompat
-import ru.subnak.easybike.domain.model.Journey
-import ru.subnak.easybike.domain.model.JourneyValue
-import ru.subnak.easybike.presentation.utils.Constants
-import java.io.File
+import kotlin.math.floor
 import kotlin.math.roundToInt
-import android.provider.MediaStore
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.maps.*
-import ru.subnak.easybike.presentation.ui.viewmodels.HistoryViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
 
-import java.io.ByteArrayOutputStream
-import java.io.FileOutputStream
+import androidx.lifecycle.Transformations.map
+
+import com.google.android.gms.maps.model.LatLng
+import android.location.Criteria
+import android.location.Location
+
+import androidx.core.content.ContextCompat.getSystemService
+
+import android.location.LocationManager
+
+
+
+
+
+
 
 
 @AndroidEntryPoint
@@ -75,9 +76,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private var distance = 0f
 
-    private var idOfIMG = 0
-
-
     private var speed = 0
 
     private var mCurrLocationMarker: Marker? = null
@@ -90,6 +88,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val callback = OnMapReadyCallback { gMap ->
         this.gMap = gMap
+        setMarker()
+        zoomCamera()
     }
 
 
@@ -107,7 +107,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             LocationServices.getFusedLocationProviderClient(requireContext())
 
         subscribeToObservers()
-        setMarker()
+
 
 
         binding.mapView.getMapAsync {
@@ -118,6 +118,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         binding.mapView.onCreate(savedInstanceState)
 
+        binding.btMyLocation.setOnClickListener{
+            zoomCamera()
+        }
 
         binding.btStart.setOnClickListener {
             toggleJourney()
@@ -137,7 +140,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         this.gMap = gMap
         gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         gMap.uiSettings.isMapToolbarEnabled = true
-
     }
 
 
@@ -146,7 +148,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(callback)
-
 
     }
 
@@ -162,7 +163,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         GpsTrackerService.pathPoints.observe(viewLifecycleOwner, {
             pathPoints = it
             addLatestPolyline()
-            moveCameraToUser()
+            zoomCamera()
             val distTrack = it
             distance = sumLengthOfPolylines(distTrack)
             binding.tvDistance.text = "${Math.round((distance / 1000f) * 10) / 10} km"
@@ -209,7 +210,23 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             mLocationCallback,
             Looper.myLooper()!!
         )
+
     }
+
+    @SuppressLint("MissingPermission")
+    private fun zoomCamera(){
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val position = CameraPosition.Builder()
+                    .target(LatLng(it.latitude, it.longitude))
+                    .zoom(MAP_ZOOM)
+                    .build()
+                gMap?.animateCamera(CameraUpdateFactory.newCameraPosition(position))
+            }
+        }
+    }
+
+
 
 
 
@@ -224,6 +241,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
+
+
 
 
     private fun addAllPolylines() {
@@ -271,12 +290,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             .title(getString(R.string.current_location))
             .icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.ic_marker))
         mCurrLocationMarker = gMap?.addMarker(markerOptions)!!
-        gMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, MAP_ZOOM))
+//        val cameraPosition = CameraPosition.Builder()
+//            .target(lastLatLng)
+//            .zoom(MAP_ZOOM)
+//            .build()
+//        gMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
     }
-
-
-
 
     private fun toggleJourney() {
         if (isTracking) {
@@ -309,7 +329,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 bounds.build(),
                 binding.mapView.width,
                 binding.mapView.height,
-                (binding.mapView.height * 0.05f).toInt()
+                (binding.mapView.height * 0.1f).toInt()
             )
         )
 
@@ -317,7 +337,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun endJourneyAndSaveToDb() {
         gMap?.snapshot { bmp ->
-            val distanceFin = (distance / 1000)
+            val distanceFin = floor(distance) / 1000.0
             val date = Calendar.getInstance().timeInMillis
             val journey = Journey(
                 Constants.UNDEFINED_ID,
@@ -341,16 +361,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun moveCameraToUser() {
-        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
-            gMap?.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    pathPoints.last().last(),
-                    MAP_ZOOM
-                )
-            )
-        }
-    }
+
+
+
 
 
     private fun sendCommandToService(action: String) =

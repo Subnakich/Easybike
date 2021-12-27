@@ -9,7 +9,7 @@ data class Journey(
     val userID: Int,
     val date: Long,
     val speed: Int,
-    val distance: Float,
+    val distance: Double,
     val duration: Long,
     val img: Bitmap ? = null,
     val journeyValues: List<JourneyValue>,
