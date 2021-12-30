@@ -9,4 +9,10 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="dialog_menu">
+        <item>Open journey</item>
+        <item>Export GPX</item>
+        <item>Delete journey</item>
+    </string-array>
 </resources>

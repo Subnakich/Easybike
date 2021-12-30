@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import ru.subnak.easybike.data.dao.JourneyListDao
 import ru.subnak.easybike.data.dao.JourneyValueListDao
 import ru.subnak.easybike.data.dao.UserDao
@@ -13,9 +14,10 @@ import ru.subnak.easybike.data.entity.UserDbModel
 
 @Database(
     entities = [UserDbModel::class, JourneyDbModel::class, JourneyValueDbModel::class],
-    version = 2,
+    version = 4,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

@@ -7,11 +7,6 @@
         android:title="@string/title_map" />
 
     <item
-        android:id="@+id/navigation_statistic"
-        android:icon="@drawable/ic_statistic_24"
-        android:title="@string/title_statistic" />
-
-    <item
         android:id="@+id/navigation_history"
         android:icon="@drawable/ic_history_24"
         android:title="@string/title_history" />

@@ -1,14 +1,19 @@
 package ru.subnak.easybike.presentation
 
+import android.graphics.Bitmap
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 import ru.subnak.easybike.R
+import ru.subnak.easybike.presentation.utils.TrackingObject.getFormattedStopTime
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 @BindingAdapter("bindDistanceToString")
 fun bindDistanceToString(textView: TextView, count: Double) {
+    count.roundToInt()
     textView.text = String.format(
         textView.context.getString(R.string.distance_with_km),
         count
@@ -30,7 +35,12 @@ fun bindDateToString(textView: TextView, count: Long) {
 
 @BindingAdapter("bindDurationToString")
 fun bindDurationToString(textView: TextView, count: Long) {
-    textView.text = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(count)
+    textView.text = getFormattedStopTime(count)
+}
+
+@BindingAdapter("bindIMG")
+fun bindIMG(imageView: ImageView, bmp: Bitmap) {
+    imageView.setImageBitmap(bmp)
 }
 
 @BindingAdapter("errorInputName")

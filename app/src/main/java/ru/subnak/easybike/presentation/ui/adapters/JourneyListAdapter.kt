@@ -11,6 +11,7 @@ import ru.subnak.easybike.presentation.ui.viewholders.JourneyViewHolder
 class JourneyListAdapter : ListAdapter<Journey, JourneyViewHolder>(JourneyDiffCallback()) {
 
     var onJourneyLongClickListener: ((Journey) -> Unit)? = null
+    var onJourneyClickListener: ((Journey) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JourneyViewHolder {
         val binding = JourneyBinding.inflate(
@@ -27,6 +28,9 @@ class JourneyListAdapter : ListAdapter<Journey, JourneyViewHolder>(JourneyDiffCa
         binding.root.setOnLongClickListener {
             onJourneyLongClickListener?.invoke(journey)
             true
+        }
+        binding.root.setOnClickListener {
+            onJourneyClickListener?.invoke(journey)
         }
         binding.journey = journey
     }

@@ -1,5 +1,6 @@
 package ru.subnak.easybike.domain.model
 
+import android.graphics.Bitmap
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -10,7 +11,7 @@ data class Journey(
     val speed: Int,
     val distance: Double,
     val duration: Long,
-    val img: String,
+    val img: Bitmap ? = null,
     val journeyValues: List<JourneyValue>,
     var journeyID: Int = UNDEFINED_ID
 ) : Parcelable {
