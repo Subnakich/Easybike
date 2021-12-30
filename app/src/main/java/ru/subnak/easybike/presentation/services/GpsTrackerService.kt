@@ -5,7 +5,6 @@ import android.app.*
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.location.Location
 import android.os.Build
@@ -13,26 +12,19 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
-import dagger.Provides
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.subnak.easybike.R
-import ru.subnak.easybike.data.dao.JourneyValueListDao
 import ru.subnak.easybike.domain.model.JourneyValue
-import ru.subnak.easybike.presentation.ui.fragments.MapsFragment
-import ru.subnak.easybike.presentation.utils.Constants
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_PAUSE_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.subnak.easybike.presentation.utils.Constants.ACTION_STOP_SERVICE
@@ -43,11 +35,9 @@ import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import ru.subnak.easybike.presentation.utils.Constants.NOTIFICATION_ID
 import ru.subnak.easybike.presentation.utils.PermissionsUtility
 import ru.subnak.easybike.presentation.utils.TrackingObject
-import java.security.Permissions
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import androidx.lifecycle.LifecycleService.NOTIFICATION_SERVICE as NOTIFICATION_SERVICE1
 
 
 typealias Polyline = MutableList<LatLng>
@@ -60,7 +50,7 @@ class GpsTrackerService : LifecycleService() {
 
     private var isTimerEnabled = false
 
-    private var timeStarted = 0L // Time when our service was started
+    private var timeStarted = 0L
 
     private var lapTime = 0L
 
@@ -105,7 +95,6 @@ class GpsTrackerService : LifecycleService() {
                         startForegroundService()
                         isFirstJourney = false
 
-                        Toast.makeText(this, "Good luck!", Toast.LENGTH_SHORT).show()
                     } else {
                         beginTraining()
 
@@ -246,7 +235,6 @@ class GpsTrackerService : LifecycleService() {
                 timeRunInSeconds.postValue((timeRun + lapTime) / 1000)
                 delay(1000)
             }
-            // Add the lap time to total time
             timeRun += lapTime
         }
     }
@@ -294,13 +282,11 @@ class GpsTrackerService : LifecycleService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // This piece of code helps in clearing the previous actions
         curNotificationBuilder.javaClass.getDeclaredField("mActions").apply {
             isAccessible = true
             set(curNotificationBuilder, ArrayList<NotificationCompat.Action>())
         }
 
-        // When our service is running, we notify the notification with the required data
         if (!serviceKilled) {
             curNotificationBuilder = baseNotificationBuilder.addAction(
                 R.drawable.ic_bike,

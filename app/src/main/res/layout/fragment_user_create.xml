@@ -61,6 +61,12 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/lets_do_it"
                 android:textSize="14sp"
+                android:backgroundTint="#0829FA"
+                android:textColor="#E1F5FE"
+                app:cornerRadius="8dp"
+                android:elevation="2dp"
+                android:stateListAnimator="@null"
+                android:translationZ="2dp"
                 />
         </LinearLayout>
 

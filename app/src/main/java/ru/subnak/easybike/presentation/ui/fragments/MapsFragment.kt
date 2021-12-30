@@ -3,7 +3,6 @@ package ru.subnak.easybike.presentation.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -40,27 +39,12 @@ import java.util.*
 import kotlin.math.floor
 import kotlin.math.roundToInt
 import com.google.android.gms.maps.CameraUpdateFactory
-
-import androidx.lifecycle.Transformations.map
-
 import com.google.android.gms.maps.model.LatLng
-import android.location.Criteria
 import android.location.Location
-
-import androidx.core.content.ContextCompat.getSystemService
-
-import android.location.LocationManager
-
-
-
-
-
-
 
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
-
 
 
     private var gMap: GoogleMap? = null
@@ -112,13 +96,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         binding.mapView.getMapAsync {
             gMap =
-                it // Get map asynchronously and assign the result to our map (google map instance) we created on top
+                it
             addAllPolylines()
         }
 
         binding.mapView.onCreate(savedInstanceState)
 
-        binding.btMyLocation.setOnClickListener{
+        binding.btMyLocation.setOnClickListener {
             zoomCamera()
         }
 
@@ -141,7 +125,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         gMap.uiSettings.isMapToolbarEnabled = true
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -198,7 +181,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun setMarker(){
+    private fun setMarker() {
         val mLocationRequest = LocationRequest()
         mLocationRequest.interval = 2000 // 3 seconds interval
 
@@ -214,7 +197,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun zoomCamera(){
+    private fun zoomCamera() {
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 val position = CameraPosition.Builder()
@@ -227,22 +210,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-
-
-
     var mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             val locationList = locationResult.locations
             if (locationList.size > 0) {
                 val location = locationList[locationList.size - 1]
-                    mCurrLocationMarker?.remove()
+                mCurrLocationMarker?.remove()
                 val latLng = LatLng(location.latitude, location.longitude)
                 currentUserPositionMarker(latLng)
             }
         }
     }
-
-
 
 
     private fun addAllPolylines() {
@@ -275,7 +253,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
         }
@@ -284,18 +263,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun currentUserPositionMarker(lastLatLng: LatLng) {
-
-        val markerOptions = MarkerOptions()
-            .position(lastLatLng)
-            .title(getString(R.string.current_location))
-            .icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.ic_marker))
-        mCurrLocationMarker = gMap?.addMarker(markerOptions)!!
-//        val cameraPosition = CameraPosition.Builder()
-//            .target(lastLatLng)
-//            .zoom(MAP_ZOOM)
-//            .build()
-//        gMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
+        if (isAdded) {
+            val markerOptions = MarkerOptions()
+                .position(lastLatLng)
+                .title(getString(R.string.current_location))
+                .icon(bitmapDescriptorFromVector(requireActivity(), R.drawable.ic_marker))
+            mCurrLocationMarker = gMap?.addMarker(markerOptions)
+        }
     }
 
     private fun toggleJourney() {
@@ -359,11 +333,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun stopJourney() {
         sendCommandToService(ACTION_STOP_SERVICE)
     }
-
-
-
-
-
 
 
     private fun sendCommandToService(action: String) =
